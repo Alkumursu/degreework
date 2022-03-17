@@ -82,12 +82,10 @@ public class Player : MonoBehaviour
     void OnJump(InputValue value)
     {
         //if(!isAlive) {return;}
-        //if(!_collider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
 
         if (value.isPressed)
         {
             _jumping = true;
-            Vector2 jumpVelocityToAdd = new Vector2(0f, _jumpSpeed);
             rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
         }
     }
