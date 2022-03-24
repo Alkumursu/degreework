@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private float _jumpSpeed;
     //private LayerMask _groundMask;
     //private BoxCollider _collider;
-    private bool _jumping;
+    //private bool _jumping;
 
     public float gravityScale = 1.0f;
     public static float globalGravity = -9.81f;
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
 
         if (value.isPressed)
         {
-            _jumping = true;
+            //_jumping = true;
             _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
         }
     }
