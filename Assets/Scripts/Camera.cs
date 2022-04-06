@@ -7,7 +7,7 @@ public class Camera : MonoBehaviour
     [Range(1,10)]
     public float smoothFactor;
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         Follow();
     }
@@ -15,7 +15,7 @@ public class Camera : MonoBehaviour
     void Follow()
     {
         Vector3 targetPosition = target.position + offset;
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, targetPosition, smoothFactor*Time.fixedDeltaTime);
+        Vector3 smoothPosition = Vector3.Slerp(transform.position, targetPosition, smoothFactor*Time.fixedDeltaTime);
         transform.position = smoothPosition;
     }
 }

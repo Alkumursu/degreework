@@ -9,71 +9,72 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private float _movementSpeed;
-    //private PlayerActions _playerActions;
     private Rigidbody _rb;
     private Vector2 _moveInput;
-
-    //[SerializeField]
-    //private float _jumpSpeed;
-    //private LayerMask _groundMask;
-    //private BoxCollider _collider;
-    //private bool _jumping;
-
-    //public float gravityScale = 1.0f;
-    //public static float globalGravity = -9.81f;
+    private Vector3 _velocity;
+    //private float _gravity = -9.81f;
 
     [SerializeField]
     private float _pushPower;
 
+    //In-Water behavior
+    [SerializeField] 
+    LayerMask waterMask = 0;
+    [SerializeField]
+    Material
+        normalMaterial = default,
+        swimmingMaterial = default;
+
+    MeshRenderer meshRenderer;
+
+    bool InWater;
+    float submergence;
+
+    //[SerializeField, Range(0f, 10f)]
+    //float waterDrag = 1f;
+
+    //Defines when the player counts as being in water and when it's fully submerged
+    [SerializeField]
+    float submergenceOffset = 0.5f;
+    [SerializeField, Min(0.1f)]
+    float submergenceRange = 1f;
+
+    Vector3 upAxis = new Vector3(0,1,0);
+
+
     private void Awake()
     {
-        //_playerActions = new PlayerActions();
+        meshRenderer = GetComponent<MeshRenderer>();
         _controller = GetComponent<CharacterController>();
         _rb = GetComponent<Rigidbody>();
         if (_rb is null)
             Debug.LogError("Rigidbody is null!");
     }
 
+    void ClearState()
+    {
+        submergence = 0f;
+    }
+
+
     private void Update()
     {
         Moving();
-        //OnJump();
+        meshRenderer.material = InWater ? swimmingMaterial : normalMaterial;
+        
+        //for testing purposes
+        //meshRenderer.material.color = Color.white * submergence;
     }
 
-    private void OnEnable()
+    /*void FixedUpdate()
     {
-        //_playerActions.Player_Map.Enable();
-
-        //_rb.useGravity = false;
-    }
-
-    private void OnDisable()
-    {
-        //_playerActions.Player_Map.Disable();
-    }
-
-    private void FixedUpdate()
-    {
-        //_moveInput = _playerActions.Player_Map.Movement.ReadValue<Vector2>();
-        //_moveInput.y = 0f;
-        //_rb.velocity = _moveInput * _movementSpeed;
-
-        //Vector3 gravity = globalGravity * gravityScale * Vector3.up;
-        //_rb.AddForce(gravity, ForceMode.Acceleration);
-    }
-
-    /*
-    void OnJump(InputValue value)
-    {
-        //if(!isAlive) {return;}
-
-        if (value.isPressed)
+        if (InWater)
         {
-            //_jumping = true;
-            _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
-        }
+            //_velocity *= 1f - waterDrag * submergence * Time.deltaTime;
+        }    
     }
     */
+
     void OnMovement(InputValue value)
     {
         Debug.Log("Moving!");
@@ -82,12 +83,17 @@ public class Player : MonoBehaviour
 
     void Moving()
     {
-        Vector2 movement = new Vector2(_moveInput.x, 0.0f);
-        _controller.SimpleMove(movement * _movementSpeed);
+        if (InWater)
+        {
+            Vector2 movement = new Vector2(_moveInput.x, 0.0f);
+            _controller.Move(movement * Time.deltaTime * (_movementSpeed * 0.5f));
+        }
+        else
+        {
+            Vector2 movement = new Vector2(_moveInput.x, 0.0f);
+            _controller.Move(movement * Time.deltaTime * _movementSpeed);
+        }
     }
-
-
-
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -103,6 +109,44 @@ public class Player : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if ((waterMask & (1 << other.gameObject.layer)) != 0)
+        {
+            EvaluateSubmergence();
+        } 
+    }
 
+    void OnTriggerStay (Collider other)
+    {
+        if ((waterMask & (1 << other.gameObject.layer)) != 0)
+        {
+            EvaluateSubmergence();  
+        }
+    }
 
+    void EvaluateSubmergence()
+    {
+        if (Physics.Raycast(
+            _rb.position + upAxis * submergenceOffset,
+            -upAxis, out RaycastHit hit, submergenceRange + 1f,
+            waterMask, QueryTriggerInteraction.Collide
+            ))
+            {
+            submergence = 1f - hit.distance / submergenceRange;
+            }
+        else
+        {
+            submergence = 1f;
+        }
+
+        if (submergence > submergenceOffset)
+        {
+            InWater = true;
+        }
+        else
+        {
+            InWater = false;
+        }
+    }
 }
