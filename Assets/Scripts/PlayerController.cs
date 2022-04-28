@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _pushPower;
 
+    private Animator _playerAnim;
 
     void Awake()
     {
@@ -28,6 +29,8 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         if (_rb is null)
             Debug.LogError("Rigidbody is null!");
+
+        _playerAnim = GetComponent<Animator>();
     }
 
     void Start()
@@ -56,6 +59,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, 2f))
         {
             _grounded = true;
+            _playerAnim.SetTrigger("Landing");
         }
     }
 
@@ -64,6 +68,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, 2f))
         {
             _grounded = true;
+            _playerAnim.SetTrigger("Landing");
         }
     }
 
@@ -78,6 +83,19 @@ public class PlayerController : MonoBehaviour
         _moveInput.y = _rb.velocity.y;
         Vector3 movementVelocity = new Vector3(_moveInput.x * _speed, _rb.velocity.y, 0);
         _rb.velocity = Vector3.Lerp(_rb.velocity, movementVelocity, Time.fixedDeltaTime);
+
+        if (_moveInput.x != 0)
+        {
+            _playerAnim.SetBool("Running", true);
+
+            Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
+            Quaternion targetRotation = Quaternion.LookRotation(playerDir, Vector3.up);
+            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+        }
+        else
+        {
+            _playerAnim.SetBool("Running", false);
+        }
     }
 
     private void HandleJump()
@@ -85,6 +103,7 @@ public class PlayerController : MonoBehaviour
         if (_grounded)
         {
             _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+            _playerAnim.SetTrigger("Jumping");
         }
     }
 
@@ -100,6 +119,13 @@ public class PlayerController : MonoBehaviour
                 box.velocity = moveDir * _pushPower;
             }
         }
+    }
+
+    public void GrabLedge(Vector3 pos)
+    {
+        // should disable controller? "_player.enabled = false;"
+        _playerAnim.SetBool("Holding", true);
+        transform.position = pos;
     }
 }
 
