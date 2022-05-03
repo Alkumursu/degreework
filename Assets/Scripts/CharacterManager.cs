@@ -99,7 +99,7 @@ public class CharacterManager : MonoBehaviour
     {
         Debug.Log("Camera works");
         Vector3 targetPosition = new Vector3 (currentCharacter.transform.position.x, currentCharacter.transform.position.y, cameraOffset.z);
-        cam.transform.position = Vector3.Slerp(transform.position, targetPosition, Time.deltaTime * cameraSmoothFactor);
+        cam.transform.position = Vector3.Slerp(cam.transform.position, targetPosition, Time.deltaTime * cameraSmoothFactor);
         Debug.Log(cameraOffset.z);
     }
 

@@ -1291,7 +1291,7 @@ MonoBehaviour:
   emmaCharacter: {fileID: 5392965215657376984}
   madisonCharacter: {fileID: 5392965215634271611}
   cameraOffset: {x: 0, y: 0, z: -10}
-  cameraSmoothFactor: 1.09
+  cameraSmoothFactor: 1.8
   cam: {fileID: 963194227}
 --- !u!4 &862004037
 Transform:
@@ -1385,7 +1385,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.09315887, y: -0, z: -0, w: 0.99565125}
-  m_LocalPosition: {x: 0, y: 5.36, z: -20}
+  m_LocalPosition: {x: 0, y: 2.91, z: -4.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
