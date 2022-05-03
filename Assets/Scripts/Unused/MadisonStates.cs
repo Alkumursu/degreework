@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmmaStates : MonoBehaviour
+public class MadisonStates : MonoBehaviour
 {
     //Player movement
     [SerializeField]
@@ -44,7 +44,7 @@ public class EmmaStates : MonoBehaviour
         _playerAnim = GetComponent<Animator>();
         //GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
     }
- 
+
     /*void OnDestroy()
     {
         GameManager.OnGameStateChanged -= GameManagerOnOnGameStateChanged;    
@@ -58,7 +58,9 @@ public class EmmaStates : MonoBehaviour
 
     /*private void GameManagerOnOnGameStateChanged(GameState state)
     {
-        lis‰‰GameObjectTms.SetActive(state == GameState.OnlyEmma);
+        KORVAA ALKU .SetActive(state == GameState.OnlyEmma);
+        lis‰‰ myˆs:
+        switch character nappula? .interactable = state == (GameState.MadisonActive);
     }
     */
 
@@ -223,11 +225,35 @@ public class EmmaStates : MonoBehaviour
         }
     }
 
-    public void GrabLedge(Vector3 pos)
+    /*public void GrabLedge(Vector3 pos)
     {
         // should disable controller? "_player.enabled = false;"
         _playerAnim.SetBool("Holding", true);
         transform.position = pos;
+    }
+    */
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, 2f))
+        {
+            _grounded = true;
+            _playerAnim.SetTrigger("Landing");
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, 2f))
+        {
+            _grounded = true;
+            _playerAnim.SetTrigger("Landing");
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        _grounded = false;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

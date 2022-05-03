@@ -80,6 +80,15 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ChangeCharacter"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ac80a54-f48a-40b1-94dd-490b28a12a60"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -269,6 +278,17 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""action"": ""Diving"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d97248b-f585-4155-b17a-248b94594fd5"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeCharacter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -283,6 +303,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         m_Player_Map_CordHang = m_Player_Map.FindAction("CordHang", throwIfNotFound: true);
         m_Player_Map_Swimming = m_Player_Map.FindAction("Swimming", throwIfNotFound: true);
         m_Player_Map_Diving = m_Player_Map.FindAction("Diving", throwIfNotFound: true);
+        m_Player_Map_ChangeCharacter = m_Player_Map.FindAction("ChangeCharacter", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -348,6 +369,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Map_CordHang;
     private readonly InputAction m_Player_Map_Swimming;
     private readonly InputAction m_Player_Map_Diving;
+    private readonly InputAction m_Player_Map_ChangeCharacter;
     public struct Player_MapActions
     {
         private @PlayerActions m_Wrapper;
@@ -358,6 +380,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         public InputAction @CordHang => m_Wrapper.m_Player_Map_CordHang;
         public InputAction @Swimming => m_Wrapper.m_Player_Map_Swimming;
         public InputAction @Diving => m_Wrapper.m_Player_Map_Diving;
+        public InputAction @ChangeCharacter => m_Wrapper.m_Player_Map_ChangeCharacter;
         public InputActionMap Get() { return m_Wrapper.m_Player_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -385,6 +408,9 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @Diving.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDiving;
                 @Diving.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDiving;
                 @Diving.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDiving;
+                @ChangeCharacter.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
+                @ChangeCharacter.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
+                @ChangeCharacter.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
             }
             m_Wrapper.m_Player_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -407,6 +433,9 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @Diving.started += instance.OnDiving;
                 @Diving.performed += instance.OnDiving;
                 @Diving.canceled += instance.OnDiving;
+                @ChangeCharacter.started += instance.OnChangeCharacter;
+                @ChangeCharacter.performed += instance.OnChangeCharacter;
+                @ChangeCharacter.canceled += instance.OnChangeCharacter;
             }
         }
     }
@@ -419,5 +448,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         void OnCordHang(InputAction.CallbackContext context);
         void OnSwimming(InputAction.CallbackContext context);
         void OnDiving(InputAction.CallbackContext context);
+        void OnChangeCharacter(InputAction.CallbackContext context);
     }
 }

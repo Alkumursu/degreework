@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
 
+    bool canSwitch;
+
     private void Awake()
     {
         Instance = this;
@@ -21,36 +23,87 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.EmmaActive); //for test purposes, change when game developed further
     }
 
+    public void SetCharacterSwitchability(bool pSwitchability)
+    {
+        canSwitch = pSwitchability;
+    }
+
+    public bool GetCharacterSwitchability()
+    {
+        return canSwitch;
+    }
+
     public void UpdateGameState(GameState newState)
     {
+        /*if (State == newState)
+        {
+            return;
+        }*/
+
         State = newState;
 
-        switch (newState)
+        switch (State)
         {
-            case GameState.OnlyMadison:
+            case GameState.MainMenu:
+                HandleMainMenu();
                 break;
-            case GameState.OnlyEmma:
+            case GameState.PauseMenu:
+                HandlePauseMenu();
                 break;
             case GameState.MadisonActive:
+                HandleMadisonActive();
                 break;
             case GameState.EmmaActive:
+                HandleEmmaActive();
                 break;
             case GameState.GameWon:
+                HandleGameWon();
                 break;
             case GameState.LoadCheckpoint:
+                HandleLoadCheckpoint();
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+                throw new ArgumentOutOfRangeException(nameof(State), State, null);
         }
 
-        OnGameStateChanged?.Invoke(newState);
+        OnGameStateChanged?.Invoke(State);
+    }
+
+    private void HandleMainMenu()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandlePauseMenu()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleMadisonActive()
+    {
+
+    }
+
+    private void HandleEmmaActive()
+    {
+
+    }
+
+    private void HandleGameWon()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleLoadCheckpoint()
+    {
+        throw new NotImplementedException();
     }
 }
 
 public enum GameState
 {
-    OnlyMadison, //At the start of the game when only madison is playable
-    OnlyEmma,
+    MainMenu,
+    PauseMenu,
     MadisonActive,
     EmmaActive,
     GameWon,

@@ -16,5 +16,6 @@ public class Camera : MonoBehaviour
     {
         Vector3 targetPosition = target.position + offset;
         transform.position = Vector3.Slerp(transform.position, targetPosition, Time.deltaTime * smoothFactor);
+        Debug.Log("Im here");
     }
 }
