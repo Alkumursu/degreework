@@ -6,6 +6,10 @@ TagManager:
   tags:
   - MovableCrate
   - PressurePlate
+  - Ledge
+  - LedgeGrabChecker
+  - Emma
+  - Madison
   layers:
   - Default
   - TransparentFX
