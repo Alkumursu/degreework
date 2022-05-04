@@ -9,6 +9,8 @@ public class CharacterManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI debugText;
 
+    Rigidbody _rb;
+
     //Active character
     [SerializeField] GameObject emmaCharacter, madisonCharacter;
     private GameObject currentCharacter;
@@ -20,38 +22,6 @@ public class CharacterManager : MonoBehaviour
     public float cameraSmoothFactor;
     [SerializeField] Camera cam;
 
-    /*
-    //Player movement
-    [SerializeField]
-    private float _speed;
-    private PlayerActions _playerActions;
-    private Rigidbody _rb;
-    private Vector2 _moveInput;
-
-    //Jumping
-    [SerializeField]
-    private float _jumpPower;
-    private bool _grounded;
-
-    //Crate
-    [SerializeField]
-    private float _pushPower;
-
-    //Animations
-    private Animator _playerAnim;
-
-    //Player states
-    public enum PlayerState
-    {
-        Default,
-        Ledge,
-        Cord,
-        Swimming,
-        Diving
-    }
-    PlayerState currentPlayerState;
-    */
-
     void Start()
     {
         Debug.Log("Hello");
@@ -61,22 +31,14 @@ public class CharacterManager : MonoBehaviour
         if (GameManager.Instance.State == GameState.EmmaActive)
         {
             currentCharacter = emmaCharacter;
-            cc = currentCharacter.GetComponent<ControllableCharacter>();
         }
         else if(GameManager.Instance.State == GameState.MadisonActive)
         {
-            //GameManager.Instance.UpdateGameState(GameState.MadisonActive);
             currentCharacter = madisonCharacter;
-            cc = currentCharacter.GetComponent<ControllableCharacter>();
         }
 
-        /*
-        _playerActions = new PlayerActions();
-        _playerActions.Player_Map.Enable();
+        cc = currentCharacter.GetComponent<ControllableCharacter>();
         _rb = currentCharacter.GetComponent<Rigidbody>();
-        _playerAnim = currentCharacter.GetComponent<Animator>();
-        currentPlayerState = PlayerState.Default;
-        */
     }
  
     void OnDestroy()
@@ -98,7 +60,9 @@ public class CharacterManager : MonoBehaviour
     private void CameraFollow()
     {
         Debug.Log("Camera works");
-        Vector3 targetPosition = new Vector3 (currentCharacter.transform.position.x, currentCharacter.transform.position.y, cameraOffset.z);
+        Vector3 characterFollowPosition = new Vector3(currentCharacter.transform.position.x + _rb.velocity.x,
+            currentCharacter.transform.position.y, currentCharacter.transform.position.z);
+        Vector3 targetPosition = characterFollowPosition + cameraOffset;
         cam.transform.position = Vector3.Slerp(cam.transform.position, targetPosition, Time.deltaTime * cameraSmoothFactor);
         Debug.Log(cameraOffset.z);
     }
@@ -122,222 +86,8 @@ public class CharacterManager : MonoBehaviour
         cc.SetActivity(false);
         currentCharacter = newCharacter;
         cc = newCharacter.GetComponent<ControllableCharacter>();
+        _rb = newCharacter.GetComponent<Rigidbody>();
         cc._playerActions.Player_Map.Enable();
         cc.SetActivity(true);
-        //_rb = currentCharacter.GetComponent<Rigidbody>();
-        //_playerAnim = currentCharacter.GetComponent<Animator>();
     }
-
-    /*private void OnEnable()
-    {
-        _playerActions = new PlayerActions();
-        _playerActions.Player_Map.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _playerActions.Player_Map.Disable();
-    }*/
-
-    /*
-    private void FixedUpdate()
-    {
-        // Physics movement based on game states, input comes from elsewhere
-        switch (currentPlayerState)
-        {
-            case PlayerState.Default:
-                {
-                    DefaultMovement();
-                    break;
-                }
-            case PlayerState.Ledge:
-                {
-                    LedgeMovement();
-                    break;
-                }
-            case PlayerState.Cord:
-                {
-                    CordMovement();
-                    break;
-                }
-            case PlayerState.Swimming:
-                {
-                    SwimmingMovement();
-                    break;
-                }
-            case PlayerState.Diving:
-                {
-                    DivingMovement();
-                    break;
-                }
-        }
-    }
-
-    // CLASS METHODS //
-    void DefaultMovement()
-    {
-        HandleMovement();
-        //_playerActions.Player_Map.Jump.performed += _ => HandleJump();
-        //_playerActions.Player_Map.ChangeCharacter.performed += _ => TriggerCharacterChange();
-    }
-
-    void LedgeMovement()
-    {
-        // Insert controller
-        // GameManager.Instance.UpdateGameState(GameState.EmmaActive);
-    }
-
-    void CordMovement()
-    {
-        // Insert controller
-    }
-
-    void SwimmingMovement()
-    {
-        // Insert controller
-    }
-
-    void DivingMovement()
-    {
-        // Insert controller
-    }
-
-    // STATE CHANGES //
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ledge"))
-        {
-            currentPlayerState = PlayerState.Ledge;
-        }
-        else if (other.gameObject.CompareTag("Cord"))
-        {
-            currentPlayerState = PlayerState.Cord;
-        }
-        else if (other.gameObject.CompareTag("WaterSurface"))
-        {
-            currentPlayerState = PlayerState.Swimming;
-        }
-        else if (other.gameObject.CompareTag("WaterDeep"))
-        {
-            currentPlayerState = PlayerState.Diving;
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ledge"))
-        {
-            currentPlayerState = PlayerState.Ledge;
-        }
-        else if (other.gameObject.CompareTag("Cord"))
-        {
-            currentPlayerState = PlayerState.Cord;
-        }
-        else if (other.gameObject.CompareTag("WaterSurface"))
-        {
-            currentPlayerState = PlayerState.Swimming;
-        }
-        else if (other.gameObject.CompareTag("WaterDeep"))
-        {
-            currentPlayerState = PlayerState.Diving;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ledge"))
-        {
-            currentPlayerState = PlayerState.Default;
-        }
-        else if (other.gameObject.CompareTag("Cord"))
-        {
-            currentPlayerState = PlayerState.Default;
-        }
-        else if (other.gameObject.CompareTag("WaterSurface"))
-        {
-            currentPlayerState = PlayerState.Default;
-        }
-        else if (other.gameObject.CompareTag("WaterDeep"))
-        {
-            currentPlayerState = PlayerState.Default;
-        }
-    }
-
-    private void HandleMovement()
-    {
-        _playerActions.Player_Map.Jump.performed += _ => HandleJump();
-        _playerActions.Player_Map.ChangeCharacter.performed += _ => TriggerCharacterChange();
-
-        _moveInput = _playerActions.Player_Map.Movement.ReadValue<Vector2>();
-        _moveInput.y = _rb.velocity.y;
-        Vector3 movementVelocity = new Vector3(_moveInput.x * _speed, _rb.velocity.y, 0);
-        _rb.velocity = Vector3.Lerp(_rb.velocity, movementVelocity, Time.fixedDeltaTime);
-
-        if (_moveInput.x != 0)
-        {
-            _playerAnim.SetBool("Running", true);
-
-            Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
-            Quaternion targetRotation = Quaternion.LookRotation(playerDir, Vector3.up);
-            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
-        }
-        else
-        {
-            _playerAnim.SetBool("Running", false);
-        }
-    }
-
-    private void HandleJump()
-    {
-        Debug.Log("Jumped");
-
-        if (cc.IsGrounded())
-        {
-            Debug.Log("Grounded");
-            _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
-            _playerAnim.SetTrigger("Jumping");
-        }
-    }
-    */
-
-    /*private void TriggerCharacterChange()
-    {
-        Debug.Log("Character change");
-
-        if(GameManager.Instance.GetCharacterSwitchability() == false)
-        {
-            return;
-        }
-
-        if(GameManager.Instance.State == GameState.EmmaActive)
-        {
-            GameManager.Instance.UpdateGameState(GameState.MadisonActive);
-        }
-        else
-        {
-            GameManager.Instance.UpdateGameState(GameState.EmmaActive);
-        }
-    }*/
-
-    /*public void GrabLedge(Vector3 pos)
-    {
-        // should disable controller? "_player.enabled = false;"
-        _playerAnim.SetBool("Holding", true);
-        transform.position = pos;
-    }
-    */
-
-    /*private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.collider.CompareTag("MovableCrate"))
-        {
-            Rigidbody box = hit.collider.attachedRigidbody;
-
-            if (!(box is null))
-            {
-                Vector3 moveDir = new Vector3(hit.moveDirection.x, 0, 0);
-                box.velocity = moveDir * _pushPower;
-            }
-        }
-    }*/
 }

@@ -37,6 +37,17 @@ public class ControllableCharacter : MonoBehaviour
     }
     PlayerState currentPlayerState;
 
+    //Water
+    [SerializeField] LayerMask waterMask;
+    [SerializeField] Material swimmingMaterial = default;
+    bool InWater => submergence > 0f;
+    float submergence;
+    [SerializeField] float submergenceOffset = 0.5f;
+    [SerializeField, Min(0.1f)]
+    float submergenceRange = 1f;
+
+    Vector3 upAxis = new Vector3(0, 1, 0);
+
     private void Awake()
     {
        GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
@@ -50,6 +61,43 @@ public class ControllableCharacter : MonoBehaviour
         _playerActions = new PlayerActions();
         _playerActions.Player_Map.Enable();
         currentPlayerState = PlayerState.Default;
+    }
+
+    void ClearState()
+    {
+        submergence = 0f;
+    }
+
+    private void OnTriggerEnter (Collider other)
+    {
+        if ((waterMask & (1 << other.gameObject.layer)) != 0)
+        {
+            EvaluateSubmergence();
+            Debug.Log("Water");
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if ((waterMask & (1 << other.gameObject.layer)) != 0)
+        {
+            EvaluateSubmergence();
+        }
+    }
+
+    private void EvaluateSubmergence()
+    {
+        if (Physics.Raycast(_rb.position + upAxis * submergenceOffset,
+            -upAxis, out RaycastHit hit, submergenceRange + 1f, waterMask, QueryTriggerInteraction.Collide))
+        {
+            submergence = 1f - hit.distance / submergenceRange;
+        }
+        else
+        {
+            submergence = 1f;
+        }
+        // var mr = GetComponentInChildren<SkinnedMeshRenderer>();
+        // mr.material.color = Color.white * submergence;
+        Debug.Log("Submergence: " + submergence);
     }
 
     private void GameManagerOnOnGameStateChanged(GameState newState)
@@ -147,14 +195,11 @@ public class ControllableCharacter : MonoBehaviour
     void DefaultMovement()
     {
         HandleMovement();
-        //_playerActions.Player_Map.Jump.performed += _ => HandleJump();
-        //_playerActions.Player_Map.ChangeCharacter.performed += _ => TriggerCharacterChange();
     }
 
     void LedgeMovement()
     {
         // Insert controller
-        // GameManager.Instance.UpdateGameState(GameState.EmmaActive);
     }
 
     void CordMovement()
@@ -173,7 +218,7 @@ public class ControllableCharacter : MonoBehaviour
     }
 
     // STATE CHANGES //
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Ledge"))
         {
@@ -231,7 +276,7 @@ public class ControllableCharacter : MonoBehaviour
         {
             currentPlayerState = PlayerState.Default;
         }
-    }
+    }*/
 
     private void HandleMovement()
     {
@@ -288,13 +333,14 @@ public class ControllableCharacter : MonoBehaviour
         
         Debug.Log("Character change" + GameManager.Instance.State);
     }
+
     /*public void GrabLedge(Vector3 pos)
     {
         // should disable controller? "_player.enabled = false;"
         _playerAnim.SetBool("Holding", true);
         transform.position = pos;
-    }
-    */
+    }*/
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.collider.CompareTag("MovableCrate"))
