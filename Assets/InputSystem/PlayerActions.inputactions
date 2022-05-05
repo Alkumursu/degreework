@@ -42,24 +42,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Swimming",
-                    "type": "Value",
-                    "id": "07b4b960-a051-4ff4-8fca-f0c71af06bba",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Diving",
-                    "type": "Value",
-                    "id": "92a29ee5-dfab-4745-8870-bacbdd5fe1dc",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "ChangeCharacter",
                     "type": "Button",
                     "id": "7ac80a54-f48a-40b1-94dd-490b28a12a60",
@@ -82,9 +64,31 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "up",
+                    "id": "8d5253a0-1ae8-4681-af51-aa12104e67b3",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "left",
                     "id": "13ba935d-8e4f-49ab-a07f-78a601df635b",
                     "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "be917b1e-0933-4a4e-99e3-07dedda55e6a",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -166,94 +170,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "CordHang",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "2D Vector",
-                    "id": "e7cacb87-18c5-408f-a65e-8398cdb9f041",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Swimming",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "left",
-                    "id": "879c8076-9fec-4a34-9fca-85d4ebcb6a82",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Swimming",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "e705dfbb-831b-49e2-9069-514d28beadfa",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Swimming",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "2D Vector",
-                    "id": "9aa3a740-3453-484e-b6e5-94276c27c033",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Diving",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "8d5253a0-1ae8-4681-af51-aa12104e67b3",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Diving",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "be917b1e-0933-4a4e-99e3-07dedda55e6a",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Diving",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "4693aa37-bd97-423d-903b-63b6daad9108",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Diving",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "bdb42cb0-4258-4c54-89b6-bdaa6dd113dc",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Diving",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
