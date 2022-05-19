@@ -21,18 +21,19 @@ public class CharacterManager : MonoBehaviour
     [Range(1, 10)]
     public float cameraSmoothFactor;
     [SerializeField] Camera cam;
+    public Vector3 cameraVelocity = Vector3.zero;
+    float cameraX, cameraY = 0f;
 
     void Start()
     {
-        Debug.Log("Hello");
-
+        //Debug.Log("Hello");
         GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
 
         if (GameManager.Instance.State == GameState.EmmaActive)
         {
             currentCharacter = emmaCharacter;
         }
-        else if(GameManager.Instance.State == GameState.MadisonActive)
+        else if (GameManager.Instance.State == GameState.MadisonActive)
         {
             currentCharacter = madisonCharacter;
         }
@@ -60,11 +61,15 @@ public class CharacterManager : MonoBehaviour
     private void CameraFollow()
     {
         Debug.Log("Camera works");
-        Vector3 characterFollowPosition = new Vector3(currentCharacter.transform.position.x + _rb.velocity.x,
-            currentCharacter.transform.position.y, currentCharacter.transform.position.z);
+        cameraX = Mathf.Lerp(cameraX, _rb.velocity.x, Time.deltaTime);
+        cameraY = Mathf.Lerp(cameraY, _rb.velocity.y, 0.25f * Time.deltaTime);
+        cameraX = Mathf.Clamp(cameraX, -2.5f, 2.5f);
+        cameraY = Mathf.Clamp(cameraY, -1, 1);
+        Vector3 characterFollowPosition = new Vector3(currentCharacter.transform.position.x + cameraX,
+            currentCharacter.transform.position.y + (cameraY * 1f), currentCharacter.transform.position.z);
         Vector3 targetPosition = characterFollowPosition + cameraOffset;
-        cam.transform.position = Vector3.Slerp(cam.transform.position, targetPosition, Time.deltaTime * cameraSmoothFactor);
-        Debug.Log(cameraOffset.z);
+        cam.transform.position = Vector3.Slerp(cam.transform.position, targetPosition, cameraSmoothFactor * Time.deltaTime);
+        //Debug.Log(cameraOffset.z);
     }
 
     private void GameManagerOnOnGameStateChanged(GameState state)

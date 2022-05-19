@@ -64,24 +64,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Swimming"",
-                    ""type"": ""Value"",
-                    ""id"": ""07b4b960-a051-4ff4-8fca-f0c71af06bba"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Diving"",
-                    ""type"": ""Value"",
-                    ""id"": ""92a29ee5-dfab-4745-8870-bacbdd5fe1dc"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""ChangeCharacter"",
                     ""type"": ""Button"",
                     ""id"": ""7ac80a54-f48a-40b1-94dd-490b28a12a60"",
@@ -104,9 +86,31 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""up"",
+                    ""id"": ""8d5253a0-1ae8-4681-af51-aa12104e67b3"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""left"",
                     ""id"": ""13ba935d-8e4f-49ab-a07f-78a601df635b"",
                     ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""be917b1e-0933-4a4e-99e3-07dedda55e6a"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -192,94 +196,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""e7cacb87-18c5-408f-a65e-8398cdb9f041"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Swimming"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""879c8076-9fec-4a34-9fca-85d4ebcb6a82"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Swimming"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""e705dfbb-831b-49e2-9069-514d28beadfa"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Swimming"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""9aa3a740-3453-484e-b6e5-94276c27c033"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Diving"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""8d5253a0-1ae8-4681-af51-aa12104e67b3"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Diving"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""be917b1e-0933-4a4e-99e3-07dedda55e6a"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Diving"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""4693aa37-bd97-423d-903b-63b6daad9108"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Diving"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""bdb42cb0-4258-4c54-89b6-bdaa6dd113dc"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Diving"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""7d97248b-f585-4155-b17a-248b94594fd5"",
                     ""path"": ""<Keyboard>/q"",
@@ -301,8 +217,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         m_Player_Map_Jump = m_Player_Map.FindAction("Jump", throwIfNotFound: true);
         m_Player_Map_LedgeHang = m_Player_Map.FindAction("LedgeHang", throwIfNotFound: true);
         m_Player_Map_CordHang = m_Player_Map.FindAction("CordHang", throwIfNotFound: true);
-        m_Player_Map_Swimming = m_Player_Map.FindAction("Swimming", throwIfNotFound: true);
-        m_Player_Map_Diving = m_Player_Map.FindAction("Diving", throwIfNotFound: true);
         m_Player_Map_ChangeCharacter = m_Player_Map.FindAction("ChangeCharacter", throwIfNotFound: true);
     }
 
@@ -367,8 +281,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Map_Jump;
     private readonly InputAction m_Player_Map_LedgeHang;
     private readonly InputAction m_Player_Map_CordHang;
-    private readonly InputAction m_Player_Map_Swimming;
-    private readonly InputAction m_Player_Map_Diving;
     private readonly InputAction m_Player_Map_ChangeCharacter;
     public struct Player_MapActions
     {
@@ -378,8 +290,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Map_Jump;
         public InputAction @LedgeHang => m_Wrapper.m_Player_Map_LedgeHang;
         public InputAction @CordHang => m_Wrapper.m_Player_Map_CordHang;
-        public InputAction @Swimming => m_Wrapper.m_Player_Map_Swimming;
-        public InputAction @Diving => m_Wrapper.m_Player_Map_Diving;
         public InputAction @ChangeCharacter => m_Wrapper.m_Player_Map_ChangeCharacter;
         public InputActionMap Get() { return m_Wrapper.m_Player_Map; }
         public void Enable() { Get().Enable(); }
@@ -402,12 +312,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @CordHang.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnCordHang;
                 @CordHang.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnCordHang;
                 @CordHang.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnCordHang;
-                @Swimming.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnSwimming;
-                @Swimming.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnSwimming;
-                @Swimming.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnSwimming;
-                @Diving.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDiving;
-                @Diving.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDiving;
-                @Diving.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDiving;
                 @ChangeCharacter.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
                 @ChangeCharacter.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
                 @ChangeCharacter.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
@@ -427,12 +331,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @CordHang.started += instance.OnCordHang;
                 @CordHang.performed += instance.OnCordHang;
                 @CordHang.canceled += instance.OnCordHang;
-                @Swimming.started += instance.OnSwimming;
-                @Swimming.performed += instance.OnSwimming;
-                @Swimming.canceled += instance.OnSwimming;
-                @Diving.started += instance.OnDiving;
-                @Diving.performed += instance.OnDiving;
-                @Diving.canceled += instance.OnDiving;
                 @ChangeCharacter.started += instance.OnChangeCharacter;
                 @ChangeCharacter.performed += instance.OnChangeCharacter;
                 @ChangeCharacter.canceled += instance.OnChangeCharacter;
@@ -446,8 +344,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnLedgeHang(InputAction.CallbackContext context);
         void OnCordHang(InputAction.CallbackContext context);
-        void OnSwimming(InputAction.CallbackContext context);
-        void OnDiving(InputAction.CallbackContext context);
         void OnChangeCharacter(InputAction.CallbackContext context);
     }
 }
