@@ -41,7 +41,7 @@ public class ControllableCharacter : MonoBehaviour
 
     //Water
     [SerializeField] LayerMask waterMask;
-    [SerializeField] Material swimmingMaterial = default;
+    //[SerializeField] Material swimmingMaterial = default;
     bool InWater => submergence > 0f;
     float submergence;
     [SerializeField] float submergenceOffset = 0.5f;
@@ -54,7 +54,8 @@ public class ControllableCharacter : MonoBehaviour
     [SerializeField, Min(0f)]
     float buoyancy = 1f;
 
-    bool exitingWater = false;
+    bool exitingWaterLeft = false;
+    bool exitingWaterRight = false;
 
     Vector3 upAxis = new Vector3(0, 1, 0);
 
@@ -88,10 +89,16 @@ public class ControllableCharacter : MonoBehaviour
             Debug.Log("Water");
         }
 
-        if (other.gameObject.CompareTag("WaterEntry") && currentPlayerState == PlayerState.Swimming)
+        if (other.gameObject.CompareTag("WaterEntryLeft") && currentPlayerState == PlayerState.Swimming)
         {
-            exitingWater = true;
-            Debug.Log("Exiting Water");
+            exitingWaterLeft = true;
+            Debug.Log("Exiting Water Left");
+        }
+
+        if (other.gameObject.CompareTag("WaterEntryRight") && currentPlayerState == PlayerState.Swimming)
+        {
+            exitingWaterRight = true;
+            Debug.Log("Exiting Water Right");
         }
     }
     private void OnTriggerStay(Collider other)
@@ -101,19 +108,31 @@ public class ControllableCharacter : MonoBehaviour
             EvaluateSubmergence();
         }
 
-        if (exitingWater)
+        if (exitingWaterLeft)
         {
             Vector3 pushForce = new Vector3(-1, 1, 0);
             _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
-            Debug.Log("Pushed");
+            Debug.Log("Pushed Left");
+        }
+
+        if (exitingWaterRight)
+        {
+            Vector3 pushForce = new Vector3(1, 1, 0);
+            _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
+            Debug.Log("Pushed Right");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("WaterEntry"))
+        if (other.gameObject.CompareTag("WaterEntryLeft"))
         {
-            exitingWater = false;
+            exitingWaterLeft = false;
+        }
+
+        if (other.gameObject.CompareTag("WaterEntryRight"))
+        {
+            exitingWaterRight = false;
         }
     }
 

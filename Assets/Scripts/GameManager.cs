@@ -18,10 +18,12 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    /*
     void Start()
     {
         UpdateGameState(GameState.EmmaActive); //for test purposes, change when game developed further
     }
+    */
 
     public void SetCharacterSwitchability(bool pSwitchability)
     {
@@ -66,12 +68,12 @@ public class GameManager : MonoBehaviour
 
     private void HandleMainMenu()
     {
-        throw new NotImplementedException();
+
     }
 
     private void HandlePauseMenu()
     {
-        throw new NotImplementedException();
+
     }
 
     private void HandleMadisonActive()
@@ -86,12 +88,12 @@ public class GameManager : MonoBehaviour
 
     private void HandleGameWon()
     {
-        throw new NotImplementedException();
+
     }
 
     private void HandleLoadCheckpoint()
     {
-        throw new NotImplementedException();
+
     }
 }
 

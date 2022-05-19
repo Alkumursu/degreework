@@ -26,15 +26,14 @@ public class CharacterManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Hello");
-
+        //Debug.Log("Hello");
         GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
 
         if (GameManager.Instance.State == GameState.EmmaActive)
         {
             currentCharacter = emmaCharacter;
         }
-        else if(GameManager.Instance.State == GameState.MadisonActive)
+        else if (GameManager.Instance.State == GameState.MadisonActive)
         {
             currentCharacter = madisonCharacter;
         }
@@ -70,7 +69,7 @@ public class CharacterManager : MonoBehaviour
             currentCharacter.transform.position.y + (cameraY * 1f), currentCharacter.transform.position.z);
         Vector3 targetPosition = characterFollowPosition + cameraOffset;
         cam.transform.position = Vector3.Slerp(cam.transform.position, targetPosition, cameraSmoothFactor * Time.deltaTime);
-        Debug.Log(cameraOffset.z);
+        //Debug.Log(cameraOffset.z);
     }
 
     private void GameManagerOnOnGameStateChanged(GameState state)
