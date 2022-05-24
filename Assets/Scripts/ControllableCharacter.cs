@@ -35,13 +35,12 @@ public class ControllableCharacter : MonoBehaviour
         Ledge,
         Cord,
         Swimming,
-        Diving
+        Dying
     }
     PlayerState currentPlayerState;
 
     //Water
     [SerializeField] LayerMask waterMask;
-    //[SerializeField] Material swimmingMaterial = default;
     bool InWater => submergence > 0f;
     float submergence;
     [SerializeField] float submergenceOffset = 0.5f;
@@ -58,6 +57,7 @@ public class ControllableCharacter : MonoBehaviour
     bool exitingWaterRight = false;
 
     Vector3 upAxis = new Vector3(0, 1, 0);
+
 
     private void Awake()
     {
@@ -153,16 +153,28 @@ public class ControllableCharacter : MonoBehaviour
             submergence = 1f;
         }
 
-        if (submergence >= 0.66f)
+        // How to call the currentCharacter functionality
+        //metodien kutsumiseen gameObject.GetComponent<CharacterManager>().metodi();
+
+        // Emma in water
+        if (submergence >= 0.66f && GameManager.Instance.State == GameState.EmmaActive)
         {
             currentPlayerState = PlayerState.Swimming;
             _playerAnim.SetBool("Running", false);
             playerStateText.text = "Player state: " + currentPlayerState;
         }
 
-        // var mr = GetComponentInChildren<SkinnedMeshRenderer>();
-        // mr.material.color = Color.white * submergence;
-        // Debug.Log("Submergence: " + submergence);
+        // Madison in water
+        // Currently if Emma is in water and we activate madison, game restarts, we need to also call the current character
+        if (submergence >= 0.66f && GameManager.Instance.State == GameState.MadisonActive)
+        {
+            currentPlayerState = PlayerState.Dying;
+            _playerAnim.SetBool("Running", false);
+            playerStateText.text = "Player state: " + currentPlayerState;
+            // The row below probably needs to be reorganized to character manager script
+            FindObjectOfType<GameManager>().HandleLoadCheckpoint();
+
+        }
     }
 
     private void GameManagerOnOnGameStateChanged(GameState newState)
@@ -253,9 +265,9 @@ public class ControllableCharacter : MonoBehaviour
                     SwimmingMovement();
                     break;
                 }
-            case PlayerState.Diving:
+            case PlayerState.Dying:
                 {
-                    DivingMovement();
+                    DyingAction();
                     break;
                 }
         }
@@ -282,71 +294,10 @@ public class ControllableCharacter : MonoBehaviour
         HandleSwimming();
     }
 
-    void DivingMovement()
+    void DyingAction()
     {
-        // Insert controller
+        HandleDying();
     }
-
-    // STATE CHANGES //
-    /*private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ledge"))
-        {
-            currentPlayerState = PlayerState.Ledge;
-        }
-        else if (other.gameObject.CompareTag("Cord"))
-        {
-            currentPlayerState = PlayerState.Cord;
-        }
-        else if (other.gameObject.CompareTag("WaterSurface"))
-        {
-            currentPlayerState = PlayerState.Swimming;
-        }
-        else if (other.gameObject.CompareTag("WaterDeep"))
-        {
-            currentPlayerState = PlayerState.Diving;
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ledge"))
-        {
-            currentPlayerState = PlayerState.Ledge;
-        }
-        else if (other.gameObject.CompareTag("Cord"))
-        {
-            currentPlayerState = PlayerState.Cord;
-        }
-        else if (other.gameObject.CompareTag("WaterSurface"))
-        {
-            currentPlayerState = PlayerState.Swimming;
-        }
-        else if (other.gameObject.CompareTag("WaterDeep"))
-        {
-            currentPlayerState = PlayerState.Diving;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ledge"))
-        {
-            currentPlayerState = PlayerState.Default;
-        }
-        else if (other.gameObject.CompareTag("Cord"))
-        {
-            currentPlayerState = PlayerState.Default;
-        }
-        else if (other.gameObject.CompareTag("WaterSurface"))
-        {
-            currentPlayerState = PlayerState.Default;
-        }
-        else if (other.gameObject.CompareTag("WaterDeep"))
-        {
-            currentPlayerState = PlayerState.Default;
-        }
-    }*/
 
     private void HandleMovement()
     {
@@ -399,6 +350,11 @@ public class ControllableCharacter : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(playerDir.normalized, Vector3.up);
             _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
         }
+    }
+
+    public void HandleDying()
+    {
+
     }
 
     private void TriggerCharacterChange()

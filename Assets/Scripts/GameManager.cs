@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class GameManager : MonoBehaviour
     public static event Action<GameState> OnGameStateChanged;
 
     bool canSwitch;
+    bool characterHasDied = false;
+
+    public float restartDelay = 1f;
 
     private void Awake()
     {
@@ -21,7 +25,7 @@ public class GameManager : MonoBehaviour
     /*
     void Start()
     {
-        UpdateGameState(GameState.EmmaActive); //for test purposes, change when game developed further
+        UpdateGameState(GameState.EmmaActive);
     }
     */
 
@@ -91,9 +95,19 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void HandleLoadCheckpoint()
+    public void HandleLoadCheckpoint()
     {
+        if (characterHasDied == false)
+        {
+            characterHasDied = true;
+            Debug.Log("Reload scene");
+            Invoke("Restart", restartDelay);
+        }
+    }
 
+    private void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
 
