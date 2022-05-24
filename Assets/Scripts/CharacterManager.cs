@@ -24,6 +24,9 @@ public class CharacterManager : MonoBehaviour
     public Vector3 cameraVelocity = Vector3.zero;
     float cameraX, cameraY = 0f;
 
+    //Death
+
+
     void Start()
     {
         //Debug.Log("Hello");
