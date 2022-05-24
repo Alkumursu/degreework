@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,18 +18,19 @@ public class GameManager : MonoBehaviour
     bool characterHasDied = false;
 
     public float restartDelay = 1f;
+    [SerializeField] Image fadeToBlack;
+    [SerializeField] float sceneLoadDelay = 3f;
 
     private void Awake()
     {
         Instance = this;
     }
-
-    /*
     void Start()
     {
-        UpdateGameState(GameState.EmmaActive);
+        //UpdateGameState(GameState.EmmaActive);
+        fadeToBlack.color = Color.black;
+        fadeToBlack.DOFade(0f, sceneLoadDelay);
     }
-    */
 
     public void SetCharacterSwitchability(bool pSwitchability)
     {
@@ -107,6 +110,7 @@ public class GameManager : MonoBehaviour
 
     private void Restart()
     {
+        fadeToBlack.DOFade(1f, sceneLoadDelay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
