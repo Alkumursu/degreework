@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterManager : MonoBehaviour //, IDataPersistence
 {
     [SerializeField] TextMeshProUGUI debugText;
 
@@ -24,8 +24,8 @@ public class CharacterManager : MonoBehaviour
     public Vector3 cameraVelocity = Vector3.zero;
     float cameraX, cameraY = 0f;
 
-    //Death
-
+    // Death
+    // Add stuff here
 
     void Start()
     {
@@ -49,6 +49,17 @@ public class CharacterManager : MonoBehaviour
     {
         GameManager.OnGameStateChanged -= GameManagerOnOnGameStateChanged;    
     }
+
+    /* Testataan load ja save dataa, lopullisessa versiossa hahmon pit‰isi spawnata viimeisimp‰‰n check pointiin
+    public void LoadData(GameData data)
+    {
+        this.transform.position = data.playerPosition;
+    }
+    public void SaveData(ref GameData data)
+    {
+        data.playerPosition = this.transform.position;
+    }
+    */
 
     private void Update()
     {

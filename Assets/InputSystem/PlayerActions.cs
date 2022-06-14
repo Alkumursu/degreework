@@ -71,6 +71,24 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DragCrate"",
+                    ""type"": ""Value"",
+                    ""id"": ""ee762f79-4244-4cf3-b2c5-81bcc024d663"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""StairsTeleportation"",
+                    ""type"": ""Button"",
+                    ""id"": ""c60c7544-12e5-49a9-ba45-21c27db29772"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -205,6 +223,28 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""action"": ""ChangeCharacter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa8a251d-a40a-406a-ab5b-e1f91587343d"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DragCrate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef0c08ce-54d3-4ee5-bbc4-4cd8f305b7a0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StairsTeleportation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -218,6 +258,8 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         m_Player_Map_LedgeHang = m_Player_Map.FindAction("LedgeHang", throwIfNotFound: true);
         m_Player_Map_CordHang = m_Player_Map.FindAction("CordHang", throwIfNotFound: true);
         m_Player_Map_ChangeCharacter = m_Player_Map.FindAction("ChangeCharacter", throwIfNotFound: true);
+        m_Player_Map_DragCrate = m_Player_Map.FindAction("DragCrate", throwIfNotFound: true);
+        m_Player_Map_StairsTeleportation = m_Player_Map.FindAction("StairsTeleportation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -282,6 +324,8 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Map_LedgeHang;
     private readonly InputAction m_Player_Map_CordHang;
     private readonly InputAction m_Player_Map_ChangeCharacter;
+    private readonly InputAction m_Player_Map_DragCrate;
+    private readonly InputAction m_Player_Map_StairsTeleportation;
     public struct Player_MapActions
     {
         private @PlayerActions m_Wrapper;
@@ -291,6 +335,8 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         public InputAction @LedgeHang => m_Wrapper.m_Player_Map_LedgeHang;
         public InputAction @CordHang => m_Wrapper.m_Player_Map_CordHang;
         public InputAction @ChangeCharacter => m_Wrapper.m_Player_Map_ChangeCharacter;
+        public InputAction @DragCrate => m_Wrapper.m_Player_Map_DragCrate;
+        public InputAction @StairsTeleportation => m_Wrapper.m_Player_Map_StairsTeleportation;
         public InputActionMap Get() { return m_Wrapper.m_Player_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -315,6 +361,12 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @ChangeCharacter.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
                 @ChangeCharacter.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
                 @ChangeCharacter.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
+                @DragCrate.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDragCrate;
+                @DragCrate.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDragCrate;
+                @DragCrate.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDragCrate;
+                @StairsTeleportation.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnStairsTeleportation;
+                @StairsTeleportation.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnStairsTeleportation;
+                @StairsTeleportation.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnStairsTeleportation;
             }
             m_Wrapper.m_Player_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -334,6 +386,12 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @ChangeCharacter.started += instance.OnChangeCharacter;
                 @ChangeCharacter.performed += instance.OnChangeCharacter;
                 @ChangeCharacter.canceled += instance.OnChangeCharacter;
+                @DragCrate.started += instance.OnDragCrate;
+                @DragCrate.performed += instance.OnDragCrate;
+                @DragCrate.canceled += instance.OnDragCrate;
+                @StairsTeleportation.started += instance.OnStairsTeleportation;
+                @StairsTeleportation.performed += instance.OnStairsTeleportation;
+                @StairsTeleportation.canceled += instance.OnStairsTeleportation;
             }
         }
     }
@@ -345,5 +403,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         void OnLedgeHang(InputAction.CallbackContext context);
         void OnCordHang(InputAction.CallbackContext context);
         void OnChangeCharacter(InputAction.CallbackContext context);
+        void OnDragCrate(InputAction.CallbackContext context);
+        void OnStairsTeleportation(InputAction.CallbackContext context);
     }
 }
