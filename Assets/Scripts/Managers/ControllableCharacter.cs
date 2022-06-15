@@ -66,6 +66,8 @@ public class ControllableCharacter : MonoBehaviour
 
     Vector3 upAxis = new Vector3(0, 1, 0);
 
+    CapsuleCollider col;
+
     //Stairs
     [SerializeField] GameObject player;
     public GameObject TeleportTo1, TeleportTo2, TeleportTo3, TeleportTo4;
@@ -87,6 +89,7 @@ public class ControllableCharacter : MonoBehaviour
     {
         _playerAnim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+        col = GetComponent<CapsuleCollider>();
 
         _playerActions = new PlayerActions();
         _playerActions.Player_Map.Enable();
@@ -122,7 +125,6 @@ public class ControllableCharacter : MonoBehaviour
             exitingWaterRight = true;
             Debug.Log("Exiting Water Right");
         }
-
 
         //Teleportation
         if (other.gameObject.CompareTag("StairTeleporter1"))
@@ -233,12 +235,14 @@ public class ControllableCharacter : MonoBehaviour
             submergence = 1f - hit.distance / submergenceRange;
             if(submergence < 0.66f)
             {
+                col.direction = 1;
                 currentPlayerState = PlayerState.Default;
                 playerStateText.text = "Player state: " + currentPlayerState;
             }
         }
         else
         {
+            col.direction = 2;
             submergence = 1f;
         }
 
@@ -255,7 +259,7 @@ public class ControllableCharacter : MonoBehaviour
         }  
 
         // Madison in water
-        if (submergence >= 0.66f && GameManager.Instance.State == GameState.MadisonActive)
+        /*if (submergence >= 0.66f && GameManager.Instance.State == GameState.MadisonActive)
         {
             currentPlayerState = PlayerState.Dying;
             _playerAnim.SetBool("Running", false);
@@ -263,8 +267,16 @@ public class ControllableCharacter : MonoBehaviour
             playerStateText.text = "Player state: " + currentPlayerState;
             // The row below probably needs to be reorganized to character manager script
             FindObjectOfType<GameManager>().HandleLoadCheckpoint();
+        }*/
+    }
 
-        }
+    public void MadisonDeath()
+    {
+            currentPlayerState = PlayerState.Dying;
+            _playerAnim.SetBool("Running", false);
+            //_playerAnim.SetBool("Dying", true);
+            playerStateText.text = "Player state: " + currentPlayerState;
+            FindObjectOfType<GameManager>().HandleLoadCheckpoint();
     }
 
     private void GameManagerOnOnGameStateChanged(GameState newState)

@@ -32,6 +32,9 @@ public class CharacterManager : MonoBehaviour //, IDataPersistence
         //Debug.Log("Hello");
         GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
 
+        emmaCharacter.GetComponent<ControllableCharacter>().enabled = false;
+        madisonCharacter.GetComponent<ControllableCharacter>().enabled = false;
+
         if (GameManager.Instance.State == GameState.EmmaActive)
         {
             currentCharacter = emmaCharacter;
@@ -43,6 +46,7 @@ public class CharacterManager : MonoBehaviour //, IDataPersistence
 
         cc = currentCharacter.GetComponent<ControllableCharacter>();
         _rb = currentCharacter.GetComponent<Rigidbody>();
+        cc.enabled = true;
     }
  
     void OnDestroy()
@@ -105,6 +109,7 @@ public class CharacterManager : MonoBehaviour //, IDataPersistence
         cc.SetActivity(false);
         currentCharacter = newCharacter;
         cc = newCharacter.GetComponent<ControllableCharacter>();
+        cc.enabled = true;
         _rb = newCharacter.GetComponent<Rigidbody>();
         cc._playerActions.Player_Map.Enable();
         cc.SetActivity(true);
