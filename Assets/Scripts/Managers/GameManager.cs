@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        //UpdateGameState(GameState.EmmaActive);
+        UpdateGameState(GameState.EmmaActive);
         fadeToBlack.color = Color.black;
         fadeToBlack.DOFade(0f, sceneLoadDelay);
     }
@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour
     private void Restart()
     {
         fadeToBlack.DOFade(1f, sceneLoadDelay);
+        DOTween.KillAll();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

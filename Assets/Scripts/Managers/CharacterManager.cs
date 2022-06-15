@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterManager : MonoBehaviour //, IDataPersistence
 {
     [SerializeField] TextMeshProUGUI debugText;
 
@@ -24,13 +24,16 @@ public class CharacterManager : MonoBehaviour
     public Vector3 cameraVelocity = Vector3.zero;
     float cameraX, cameraY = 0f;
 
-    //Death
-
+    // Death
+    // Add stuff here
 
     void Start()
     {
         //Debug.Log("Hello");
         GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
+
+        emmaCharacter.GetComponent<ControllableCharacter>().enabled = false;
+        madisonCharacter.GetComponent<ControllableCharacter>().enabled = false;
 
         if (GameManager.Instance.State == GameState.EmmaActive)
         {
@@ -43,12 +46,24 @@ public class CharacterManager : MonoBehaviour
 
         cc = currentCharacter.GetComponent<ControllableCharacter>();
         _rb = currentCharacter.GetComponent<Rigidbody>();
+        cc.enabled = true;
     }
  
     void OnDestroy()
     {
         GameManager.OnGameStateChanged -= GameManagerOnOnGameStateChanged;    
     }
+
+    /* Testataan load ja save dataa, lopullisessa versiossa hahmon pit‰isi spawnata viimeisimp‰‰n check pointiin
+    public void LoadData(GameData data)
+    {
+        this.transform.position = data.playerPosition;
+    }
+    public void SaveData(ref GameData data)
+    {
+        data.playerPosition = this.transform.position;
+    }
+    */
 
     private void Update()
     {
@@ -94,6 +109,7 @@ public class CharacterManager : MonoBehaviour
         cc.SetActivity(false);
         currentCharacter = newCharacter;
         cc = newCharacter.GetComponent<ControllableCharacter>();
+        cc.enabled = true;
         _rb = newCharacter.GetComponent<Rigidbody>();
         cc._playerActions.Player_Map.Enable();
         cc.SetActivity(true);

@@ -16,6 +16,14 @@ public class ControllableCharacter : MonoBehaviour
     private Rigidbody _rb;
     private Vector2 _moveInput;
 
+    //Walk-run transition test WIP
+    /*public float moveSpeed = 1.5f;
+    public float walkSpeed = 1.5f;
+    public float runSpeed = 8.0f;
+
+    private bool walking = true;
+    */
+
     //Jumping
     [SerializeField]
     private float _jumpPower;
@@ -58,6 +66,19 @@ public class ControllableCharacter : MonoBehaviour
 
     Vector3 upAxis = new Vector3(0, 1, 0);
 
+    CapsuleCollider col;
+
+    //Stairs
+    [SerializeField] GameObject player;
+    public GameObject TeleportTo1, TeleportTo2, TeleportTo3, TeleportTo4;
+
+    bool toUpstairs1 = false;
+    bool toDownstairs1 = false;
+    bool toUpstairs2 = false;
+    bool toDownstairs2 = false;
+
+    //Teleportation prompt
+    public GameObject tpPrompt;
 
     private void Awake()
     {
@@ -68,12 +89,15 @@ public class ControllableCharacter : MonoBehaviour
     {
         _playerAnim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+        col = GetComponent<CapsuleCollider>();
 
         _playerActions = new PlayerActions();
         _playerActions.Player_Map.Enable();
         currentPlayerState = PlayerState.Default;
 
         playerStateText.text = "Player state: " + currentPlayerState;
+
+        tpPrompt.SetActive(false);
     }
 
     void ClearState()
@@ -83,6 +107,7 @@ public class ControllableCharacter : MonoBehaviour
 
     private void OnTriggerEnter (Collider other)
     {
+        //Swimming
         if ((waterMask & (1 << other.gameObject.layer)) != 0)
         {
             EvaluateSubmergence();
@@ -99,6 +124,28 @@ public class ControllableCharacter : MonoBehaviour
         {
             exitingWaterRight = true;
             Debug.Log("Exiting Water Right");
+        }
+
+        //Teleportation
+        if (other.gameObject.CompareTag("StairTeleporter1"))
+        {
+            toUpstairs1 = true;
+            tpPrompt.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter2"))
+        {
+            toDownstairs1 = true;
+            tpPrompt.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter3"))
+        {
+            toUpstairs2 = true;
+            tpPrompt.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter4"))
+        {
+            toDownstairs2 = true;
+            tpPrompt.SetActive(true);
         }
     }
     private void OnTriggerStay(Collider other)
@@ -121,6 +168,27 @@ public class ControllableCharacter : MonoBehaviour
             _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
             Debug.Log("Pushed Right");
         }
+
+        if (other.gameObject.CompareTag("StairTeleporter1"))
+        {
+            toUpstairs1 = true;
+            tpPrompt.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter2"))
+        {
+            toDownstairs1 = true;
+            tpPrompt.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter3"))
+        {
+            toUpstairs2 = true;
+            tpPrompt.SetActive(true);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter4"))
+        {
+            toDownstairs2 = true;
+            tpPrompt.SetActive(true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -134,6 +202,29 @@ public class ControllableCharacter : MonoBehaviour
         {
             exitingWaterRight = false;
         }
+
+        //Teleportation
+        if (other.gameObject.CompareTag("StairTeleporter1"))
+        {
+            toUpstairs1 = false;
+            tpPrompt.SetActive(false);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter2"))
+        {
+            toDownstairs1 = false;
+            tpPrompt.SetActive(false);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter3"))
+        {
+            toUpstairs2 = false;
+            tpPrompt.SetActive(false);
+        }
+        if (other.gameObject.CompareTag("StairTeleporter4"))
+        {
+            toDownstairs2 = false;
+            tpPrompt.SetActive(false);
+        }
+
     }
 
     private void EvaluateSubmergence()
@@ -144,12 +235,14 @@ public class ControllableCharacter : MonoBehaviour
             submergence = 1f - hit.distance / submergenceRange;
             if(submergence < 0.66f)
             {
+                col.direction = 1;
                 currentPlayerState = PlayerState.Default;
                 playerStateText.text = "Player state: " + currentPlayerState;
             }
         }
         else
         {
+            col.direction = 2;
             submergence = 1f;
         }
 
@@ -161,20 +254,29 @@ public class ControllableCharacter : MonoBehaviour
         {
             currentPlayerState = PlayerState.Swimming;
             _playerAnim.SetBool("Running", false);
+            //_playerAnim.SetBool("Swimming", true);
             playerStateText.text = "Player state: " + currentPlayerState;
-        }
+        }  
 
         // Madison in water
-        // Currently if Emma is in water and we activate madison, game restarts, we need to also call the current character
-        if (submergence >= 0.66f && GameManager.Instance.State == GameState.MadisonActive)
+        /*if (submergence >= 0.66f && GameManager.Instance.State == GameState.MadisonActive)
         {
             currentPlayerState = PlayerState.Dying;
             _playerAnim.SetBool("Running", false);
+            //_playerAnim.SetBool("Dying", true);
             playerStateText.text = "Player state: " + currentPlayerState;
             // The row below probably needs to be reorganized to character manager script
             FindObjectOfType<GameManager>().HandleLoadCheckpoint();
+        }*/
+    }
 
-        }
+    public void MadisonDeath()
+    {
+            currentPlayerState = PlayerState.Dying;
+            _playerAnim.SetBool("Running", false);
+            //_playerAnim.SetBool("Dying", true);
+            playerStateText.text = "Player state: " + currentPlayerState;
+            FindObjectOfType<GameManager>().HandleLoadCheckpoint();
     }
 
     private void GameManagerOnOnGameStateChanged(GameState newState)
@@ -277,7 +379,9 @@ public class ControllableCharacter : MonoBehaviour
     void DefaultMovement()
     {
         HandleMovement();
+        //HandleCrateMoving();
     }
+
 
     void LedgeMovement()
     {
@@ -292,6 +396,7 @@ public class ControllableCharacter : MonoBehaviour
     void SwimmingMovement()
     {
         HandleSwimming();
+        //HandleCrateMoving();
     }
 
     void DyingAction()
@@ -303,6 +408,7 @@ public class ControllableCharacter : MonoBehaviour
     {
         _playerActions.Player_Map.Jump.performed += _ => HandleJump();
         _playerActions.Player_Map.ChangeCharacter.performed += _ => TriggerCharacterChange();
+        _playerActions.Player_Map.StairsTeleportation.performed += _ => HandleTeleportation();
 
         _rb.drag = 0;
         _moveInput = _playerActions.Player_Map.Movement.ReadValue<Vector2>();
@@ -351,6 +457,37 @@ public class ControllableCharacter : MonoBehaviour
             _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
         }
     }
+
+    private void HandleTeleportation()
+    {
+        if (toUpstairs1 == true)
+        {
+            player.transform.position = TeleportTo1.transform.position;
+        }   
+
+        if (toDownstairs1 == true)
+        {
+            player.transform.position = TeleportTo2.transform.position; 
+        }
+
+        if (toUpstairs2 == true)
+        {
+            player.transform.position = TeleportTo3.transform.position;
+        }
+
+        if (toDownstairs2 == true)
+        {
+            player.transform.position = TeleportTo4.transform.position;
+        }
+    }
+
+    /*private void HandleCrateMoving()
+    {
+        _moveInput = _playerActions.Player_Map.DragCrate.ReadValue<Vector2>();
+
+        
+    }
+    */
 
     public void HandleDying()
     {

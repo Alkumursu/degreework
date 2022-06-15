@@ -12,6 +12,11 @@ TagManager:
   - Madison
   - WaterEntryLeft
   - WaterEntryRight
+  - StairTeleporter1
+  - StairTeleporter2
+  - TeleportationPrompt
+  - StairTeleporter3
+  - StairTeleporter4
   layers:
   - Default
   - TransparentFX
