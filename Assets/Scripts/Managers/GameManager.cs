@@ -32,6 +32,17 @@ public class GameManager : MonoBehaviour
         fadeToBlack.DOFade(0f, sceneLoadDelay);
     }
 
+    public void FadeIn(float fadeTime)
+    {
+        fadeToBlack.DOFade(1f, fadeTime);
+    }
+
+    public void FadeOut(float fadeTime)
+    {
+        fadeToBlack.DOFade(0f, fadeTime);
+    }
+
+
     public void SetCharacterSwitchability(bool pSwitchability)
     {
         canSwitch = pSwitchability;

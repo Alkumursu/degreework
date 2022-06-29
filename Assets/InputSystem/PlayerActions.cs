@@ -74,7 +74,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""DragCrate"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""ee762f79-4244-4cf3-b2c5-81bcc024d663"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -228,7 +228,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""fa8a251d-a40a-406a-ab5b-e1f91587343d"",
                     ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DragCrate"",
