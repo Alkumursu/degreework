@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class CharacterManager : MonoBehaviour //, IDataPersistence
+public class CharacterManager : MonoBehaviour 
 {
     [SerializeField] TextMeshProUGUI debugText;
 
@@ -24,12 +24,10 @@ public class CharacterManager : MonoBehaviour //, IDataPersistence
     public Vector3 cameraVelocity = Vector3.zero;
     float cameraX, cameraY = 0f;
 
-    // Death
-    // Add stuff here
+    [SerializeField] float minCamX, minCamY, maxCamX, maxCamY;
 
     void Start()
     {
-        //Debug.Log("Hello");
         GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
 
         emmaCharacter.GetComponent<ControllableCharacter>().enabled = false;
@@ -78,16 +76,37 @@ public class CharacterManager : MonoBehaviour //, IDataPersistence
 
     private void CameraFollow()
     {
-        Debug.Log("Camera works");
         cameraX = Mathf.Lerp(cameraX, _rb.velocity.x, Time.deltaTime);
         cameraY = Mathf.Lerp(cameraY, _rb.velocity.y, 0.25f * Time.deltaTime);
         cameraX = Mathf.Clamp(cameraX, -2.5f, 2.5f);
         cameraY = Mathf.Clamp(cameraY, -1, 1);
         Vector3 characterFollowPosition = new Vector3(currentCharacter.transform.position.x + cameraX,
             currentCharacter.transform.position.y + (cameraY * 1f), currentCharacter.transform.position.z);
+
+
+        if (characterFollowPosition.x <= minCamX)
+        {
+            characterFollowPosition.x = minCamX;
+        }
+
+        if(characterFollowPosition.y <= minCamY - cameraOffset.y)
+        {
+            characterFollowPosition.y = minCamY - cameraOffset.y;
+        }
+
+        if (characterFollowPosition.x >= maxCamX)
+        {
+            characterFollowPosition.x = maxCamX;
+        }
+
+        if (characterFollowPosition.y >= maxCamY - cameraOffset.y)
+        {
+            characterFollowPosition.y = maxCamY - cameraOffset.y;
+        }
+
+
         Vector3 targetPosition = characterFollowPosition + cameraOffset;
         cam.transform.position = Vector3.Slerp(cam.transform.position, targetPosition, cameraSmoothFactor * Time.deltaTime);
-        //Debug.Log(cameraOffset.z);
     }
 
     private void GameManagerOnOnGameStateChanged(GameState state)
@@ -104,7 +123,6 @@ public class CharacterManager : MonoBehaviour //, IDataPersistence
 
     private void SwitchTo(GameObject newCharacter)
     {
-        //cc.StopMovement();
         cc._playerActions.Player_Map.Disable();
         cc.SetActivity(false);
         currentCharacter = newCharacter;
