@@ -17,6 +17,7 @@ TagManager:
   - TeleportationPrompt
   - StairTeleporter3
   - StairTeleporter4
+  - DoorButton
   layers:
   - Default
   - TransparentFX

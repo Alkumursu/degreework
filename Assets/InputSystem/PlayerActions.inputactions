@@ -60,9 +60,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "StairsTeleportation",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "c60c7544-12e5-49a9-ba45-21c27db29772",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StairsTeleportation",
+                    "type": "Button",
+                    "id": "c124e2c4-44f6-4606-8e6f-63df011ec7d1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -216,6 +225,17 @@
                 {
                     "name": "",
                     "id": "ef0c08ce-54d3-4ee5-bbc4-4cd8f305b7a0",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "099763e3-815d-4476-91ce-dfbd237fbc3e",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",

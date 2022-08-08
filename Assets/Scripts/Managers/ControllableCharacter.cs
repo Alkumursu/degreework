@@ -363,6 +363,8 @@ public class ControllableCharacter : MonoBehaviour
         if (_moveInput.x != 0 && _grounded)
         {
             _playerAnim.SetBool("Running", true);
+            _playerAnim.SetBool("Swimming", false);
+            _playerAnim.SetBool("SwimmingIdle", false);
 
             Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(playerDir, Vector3.up);
@@ -379,7 +381,8 @@ public class ControllableCharacter : MonoBehaviour
         if (IsGrounded() && submergence < 1)
         {
             _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
-            _playerAnim.SetBool("Jumping", true);
+            //testipoisto
+            //_playerAnim.SetBool("Jumping", true);
         }
     }
 

@@ -82,9 +82,18 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""StairsTeleportation"",
+                    ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""c60c7544-12e5-49a9-ba45-21c27db29772"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StairsTeleportation"",
+                    ""type"": ""Button"",
+                    ""id"": ""c124e2c4-44f6-4606-8e6f-63df011ec7d1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -238,6 +247,17 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ef0c08ce-54d3-4ee5-bbc4-4cd8f305b7a0"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""099763e3-815d-4476-91ce-dfbd237fbc3e"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -259,6 +279,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         m_Player_Map_CordHang = m_Player_Map.FindAction("CordHang", throwIfNotFound: true);
         m_Player_Map_ChangeCharacter = m_Player_Map.FindAction("ChangeCharacter", throwIfNotFound: true);
         m_Player_Map_DragCrate = m_Player_Map.FindAction("DragCrate", throwIfNotFound: true);
+        m_Player_Map_Interact = m_Player_Map.FindAction("Interact", throwIfNotFound: true);
         m_Player_Map_StairsTeleportation = m_Player_Map.FindAction("StairsTeleportation", throwIfNotFound: true);
     }
 
@@ -325,6 +346,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Map_CordHang;
     private readonly InputAction m_Player_Map_ChangeCharacter;
     private readonly InputAction m_Player_Map_DragCrate;
+    private readonly InputAction m_Player_Map_Interact;
     private readonly InputAction m_Player_Map_StairsTeleportation;
     public struct Player_MapActions
     {
@@ -336,6 +358,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         public InputAction @CordHang => m_Wrapper.m_Player_Map_CordHang;
         public InputAction @ChangeCharacter => m_Wrapper.m_Player_Map_ChangeCharacter;
         public InputAction @DragCrate => m_Wrapper.m_Player_Map_DragCrate;
+        public InputAction @Interact => m_Wrapper.m_Player_Map_Interact;
         public InputAction @StairsTeleportation => m_Wrapper.m_Player_Map_StairsTeleportation;
         public InputActionMap Get() { return m_Wrapper.m_Player_Map; }
         public void Enable() { Get().Enable(); }
@@ -364,6 +387,9 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @DragCrate.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDragCrate;
                 @DragCrate.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDragCrate;
                 @DragCrate.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnDragCrate;
+                @Interact.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnInteract;
                 @StairsTeleportation.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnStairsTeleportation;
                 @StairsTeleportation.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnStairsTeleportation;
                 @StairsTeleportation.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnStairsTeleportation;
@@ -389,6 +415,9 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @DragCrate.started += instance.OnDragCrate;
                 @DragCrate.performed += instance.OnDragCrate;
                 @DragCrate.canceled += instance.OnDragCrate;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
                 @StairsTeleportation.started += instance.OnStairsTeleportation;
                 @StairsTeleportation.performed += instance.OnStairsTeleportation;
                 @StairsTeleportation.canceled += instance.OnStairsTeleportation;
@@ -404,6 +433,7 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         void OnCordHang(InputAction.CallbackContext context);
         void OnChangeCharacter(InputAction.CallbackContext context);
         void OnDragCrate(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
         void OnStairsTeleportation(InputAction.CallbackContext context);
     }
 }
