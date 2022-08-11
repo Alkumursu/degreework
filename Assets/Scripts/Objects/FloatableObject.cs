@@ -41,7 +41,7 @@ public class FloatableObject : MonoBehaviour
         {
             _rb.drag = waterDrag;
             //_rb.velocity += Physics.gravity * ((1f - buoyancy * submergence) * Time.deltaTime);
-            _rb.AddForce(Vector3.up * Mathf.Lerp(0,1500,Time.fixedDeltaTime), ForceMode.Acceleration);
+            _rb.AddForce(Vector3.up * Mathf.Lerp(0,1700,Time.fixedDeltaTime), ForceMode.Acceleration);
             _rb.mass = 10;
         }
         else

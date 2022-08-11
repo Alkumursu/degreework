@@ -41,8 +41,6 @@ public class ControllableCharacter : MonoBehaviour
     public enum PlayerState
     {
         Default,
-        Ledge,
-        Cord,
         Swimming,
         Dying
     }
@@ -73,6 +71,8 @@ public class ControllableCharacter : MonoBehaviour
     FixedJoint joint;
     GameObject movableBox;
     bool isPushing;
+
+    Outline outline;
 
     private void Awake()
     {
@@ -241,8 +241,9 @@ public class ControllableCharacter : MonoBehaviour
         if (collision.gameObject.CompareTag("MovableCrate"))
         {
             movableBox = collision.gameObject;
-            MeshRenderer mr = movableBox.GetComponent<MeshRenderer>();
-            mr.material.color = Color.red;
+
+            outline = movableBox.GetComponent<Outline>();
+            outline.enabled = true;
         }
     }
 
@@ -264,10 +265,9 @@ public class ControllableCharacter : MonoBehaviour
         _grounded = false;
         _playerAnim.SetBool("JumpGrounded", false);
 
-        MeshRenderer mr = movableBox.GetComponent<MeshRenderer>();
-        mr.material.color = Color.white;
         movableBox = null;
-        mr = null;
+        outline.enabled = false;
+
     }
 
     public bool IsGrounded()
@@ -290,16 +290,6 @@ public class ControllableCharacter : MonoBehaviour
                     DefaultMovement();
                     break;
                 }
-            case PlayerState.Ledge:
-                {
-                    LedgeMovement();
-                    break;
-                }
-            case PlayerState.Cord:
-                {
-                    CordMovement();
-                    break;
-                }
             case PlayerState.Swimming:
                 {
                     SwimmingMovement();
@@ -318,17 +308,6 @@ public class ControllableCharacter : MonoBehaviour
     {
         HandleMovement();
         HandleCrateMoving();
-    }
-
-
-    void LedgeMovement()
-    {
-        // Insert controller
-    }
-
-    void CordMovement()
-    {
-        // Insert controller
     }
 
     void SwimmingMovement()
