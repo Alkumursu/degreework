@@ -368,7 +368,10 @@ public class ControllableCharacter : MonoBehaviour
 
             Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(playerDir, Vector3.up);
-            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+            if(joint == null)
+            {
+                _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+            }
         }
         else
         {
@@ -401,7 +404,10 @@ public class ControllableCharacter : MonoBehaviour
             _playerAnim.SetBool("Swimming", true);
             Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(playerDir.normalized, Vector3.up);
-            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+            if (joint == null)
+            {
+                _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+            }
         }
     }
 
@@ -428,9 +434,18 @@ public class ControllableCharacter : MonoBehaviour
         }
     }
 
-    public void HandleDying()
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (hit.collider.CompareTag("MovableCrate"))
+        {
+            Rigidbody box = hit.collider.attachedRigidbody;
 
+            if (!(box is null))
+            {
+                Vector3 moveDir = new Vector3(hit.moveDirection.x, 0, 0);
+                box.velocity = moveDir * _pushPower;
+            }
+        }
     }
 
     private void TriggerCharacterChange()
@@ -454,17 +469,8 @@ public class ControllableCharacter : MonoBehaviour
         Debug.Log("Character change" + GameManager.Instance.State);
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    public void HandleDying()
     {
-        if (hit.collider.CompareTag("MovableCrate"))
-        {
-            Rigidbody box = hit.collider.attachedRigidbody;
 
-            if (!(box is null))
-            {
-                Vector3 moveDir = new Vector3(hit.moveDirection.x, 0, 0);
-                box.velocity = moveDir * _pushPower;
-            }
-        }
     }
 }

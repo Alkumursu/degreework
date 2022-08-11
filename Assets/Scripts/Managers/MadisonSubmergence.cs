@@ -51,7 +51,8 @@ public class MadisonSubmergence : MonoBehaviour
             -upAxis, out RaycastHit hit, submergenceRange + 1f, waterMask, QueryTriggerInteraction.Collide))
         {
             submergence = 1f - hit.distance / submergenceRange;
-            if (submergence > 0.66f)
+            if (submergence > 0.9f)
+                //aiemmin 0.66f
             {
                 cc.MadisonDeath();
             }

@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class FloatableObject : MonoBehaviour
 {
-    bool InWater => submergence > 0f;
+    bool InWater; 
+        //=> submergence > 0f;
     float submergence;
     Rigidbody _rb;
 
@@ -15,7 +16,7 @@ public class FloatableObject : MonoBehaviour
     [SerializeField] float submergenceOffset = 0.5f;
     [SerializeField, Min(0.1f)] float submergenceRange = 1f;
 
-    [SerializeField, Min(0f)] float buoyancy = 1f;
+    //[SerializeField, Min(0f)] float buoyancy = 1f;
 
     [SerializeField, Range(0f, 10f)] float waterDrag = 1f;
 
@@ -39,11 +40,14 @@ public class FloatableObject : MonoBehaviour
         if (InWater)
         {
             _rb.drag = waterDrag;
-            _rb.velocity += Physics.gravity * ((1f - buoyancy * submergence) * Time.deltaTime);
+            //_rb.velocity += Physics.gravity * ((1f - buoyancy * submergence) * Time.deltaTime);
+            _rb.AddForce(Vector3.up * Mathf.Lerp(0,1500,Time.fixedDeltaTime), ForceMode.Acceleration);
+            _rb.mass = 10;
         }
         else
         {
             _rb.drag = 0f;
+            _rb.mass = 3f;
         }
     }
 
@@ -80,7 +84,7 @@ public class FloatableObject : MonoBehaviour
             submergence = 1f;
         }
 
-        /*if(submergence >= 0.66f)
+        if(submergence >= 1f)
         {
             InWater = true;
         }
@@ -88,6 +92,5 @@ public class FloatableObject : MonoBehaviour
         {
             InWater = false;
         }
-        */
     }
 }
