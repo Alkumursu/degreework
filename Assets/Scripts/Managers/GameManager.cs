@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        // testing below, previously EmmaActive
         UpdateGameState(GameState.EmmaActive);
         fadeToBlack.color = Color.black;
         fadeToBlack.DOFade(0f, sceneLoadDelay);

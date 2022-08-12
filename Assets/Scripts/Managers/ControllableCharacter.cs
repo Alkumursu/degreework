@@ -41,8 +41,6 @@ public class ControllableCharacter : MonoBehaviour
     public enum PlayerState
     {
         Default,
-        Ledge,
-        Cord,
         Swimming,
         Dying
     }
@@ -73,6 +71,8 @@ public class ControllableCharacter : MonoBehaviour
     FixedJoint joint;
     GameObject movableBox;
     bool isPushing;
+
+    Outline outline;
 
     private void Awake()
     {
@@ -241,8 +241,9 @@ public class ControllableCharacter : MonoBehaviour
         if (collision.gameObject.CompareTag("MovableCrate"))
         {
             movableBox = collision.gameObject;
-            MeshRenderer mr = movableBox.GetComponent<MeshRenderer>();
-            mr.material.color = Color.red;
+
+            outline = movableBox.GetComponent<Outline>();
+            outline.enabled = true;
         }
     }
 
@@ -264,10 +265,9 @@ public class ControllableCharacter : MonoBehaviour
         _grounded = false;
         _playerAnim.SetBool("JumpGrounded", false);
 
-        MeshRenderer mr = movableBox.GetComponent<MeshRenderer>();
-        mr.material.color = Color.white;
         movableBox = null;
-        mr = null;
+        outline.enabled = false;
+
     }
 
     public bool IsGrounded()
@@ -290,16 +290,6 @@ public class ControllableCharacter : MonoBehaviour
                     DefaultMovement();
                     break;
                 }
-            case PlayerState.Ledge:
-                {
-                    LedgeMovement();
-                    break;
-                }
-            case PlayerState.Cord:
-                {
-                    CordMovement();
-                    break;
-                }
             case PlayerState.Swimming:
                 {
                     SwimmingMovement();
@@ -318,17 +308,6 @@ public class ControllableCharacter : MonoBehaviour
     {
         HandleMovement();
         HandleCrateMoving();
-    }
-
-
-    void LedgeMovement()
-    {
-        // Insert controller
-    }
-
-    void CordMovement()
-    {
-        // Insert controller
     }
 
     void SwimmingMovement()
@@ -363,10 +342,15 @@ public class ControllableCharacter : MonoBehaviour
         if (_moveInput.x != 0 && _grounded)
         {
             _playerAnim.SetBool("Running", true);
+            _playerAnim.SetBool("Swimming", false);
+            _playerAnim.SetBool("SwimmingIdle", false);
 
             Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(playerDir, Vector3.up);
-            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+            if(joint == null)
+            {
+                _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+            }
         }
         else
         {
@@ -379,7 +363,8 @@ public class ControllableCharacter : MonoBehaviour
         if (IsGrounded() && submergence < 1)
         {
             _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
-            _playerAnim.SetBool("Jumping", true);
+            //testipoisto
+            //_playerAnim.SetBool("Jumping", true);
         }
     }
 
@@ -398,7 +383,10 @@ public class ControllableCharacter : MonoBehaviour
             _playerAnim.SetBool("Swimming", true);
             Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(playerDir.normalized, Vector3.up);
-            _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+            if (joint == null)
+            {
+                _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+            }
         }
     }
 
@@ -425,9 +413,18 @@ public class ControllableCharacter : MonoBehaviour
         }
     }
 
-    public void HandleDying()
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (hit.collider.CompareTag("MovableCrate"))
+        {
+            Rigidbody box = hit.collider.attachedRigidbody;
 
+            if (!(box is null))
+            {
+                Vector3 moveDir = new Vector3(hit.moveDirection.x, 0, 0);
+                box.velocity = moveDir * _pushPower;
+            }
+        }
     }
 
     private void TriggerCharacterChange()
@@ -451,17 +448,8 @@ public class ControllableCharacter : MonoBehaviour
         Debug.Log("Character change" + GameManager.Instance.State);
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    public void HandleDying()
     {
-        if (hit.collider.CompareTag("MovableCrate"))
-        {
-            Rigidbody box = hit.collider.attachedRigidbody;
 
-            if (!(box is null))
-            {
-                Vector3 moveDir = new Vector3(hit.moveDirection.x, 0, 0);
-                box.velocity = moveDir * _pushPower;
-            }
-        }
     }
 }
