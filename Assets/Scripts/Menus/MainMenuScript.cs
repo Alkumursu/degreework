@@ -14,11 +14,11 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private GameObject confirmBox;
     [SerializeField] private float defaultVolume = 1.0f;
 
-    [Header("Levels to Load")]
-    public string _newGameLevel;
-    private string levelToLoad;
-    [SerializeField]
-    private GameObject noSavedGame = null;
+    //[Header("Levels to Load")]
+    //public string _newGameLevel;
+    //private string levelToLoad;
+    //[SerializeField]
+    //private GameObject noSavedGame = null;
 
     [Header("Graphic settings")]
     [SerializeField] private TMP_Dropdown qualityDropDown;
@@ -32,6 +32,7 @@ public class MainMenuScript : MonoBehaviour
 
     private void Start()
     {
+        /*
         Application.targetFrameRate = 60;
 
         resolutions = Screen.resolutions;
@@ -54,20 +55,22 @@ public class MainMenuScript : MonoBehaviour
         resolutionDropDown.AddOptions(options);
         resolutionDropDown.value = currentResolutionINdex;
         resolutionDropDown.RefreshShownValue();
+        */
     }
 
-    public void SetResolution(int resolutionINdex)
+    /*public void SetResolution(int resolutionINdex)
     {
         Resolution resolution = resolutions[resolutionINdex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
+    */
 
     public void NewGame()
     {
-        SceneManager.LoadScene(_newGameLevel);
+        SceneManager.LoadScene(1);
     }
 
-    public void LoadGame()
+    /*public void LoadGame()
     {
         //PlayerPrefs sis‰lt‰‰ kaikki tiedot mit‰ savetetussa kent‰ss‰ on tehty!!!
         if (PlayerPrefs.HasKey("SavedLevel"))
@@ -80,6 +83,7 @@ public class MainMenuScript : MonoBehaviour
             noSavedGame.SetActive(true);
         }
     }
+    */
 
     public void ExitGame()
     {
@@ -90,6 +94,7 @@ public class MainMenuScript : MonoBehaviour
     
     //--- OPTIONS MENU ---//
 
+    /*
     public void SetVolume(float volume)
     {
         AudioListener.volume = volume;
@@ -105,6 +110,7 @@ public class MainMenuScript : MonoBehaviour
     {
         _isFullScreen = isFullScreen;
     }
+    
 
     public void SetQuality(int qualityIndex)
     {
@@ -121,6 +127,7 @@ public class MainMenuScript : MonoBehaviour
 
         StartCoroutine(ConfirmBox());
     }
+    
     public void ResetButton(string MenuType)
     {
         if(MenuType == "Graphics")
@@ -143,11 +150,12 @@ public class MainMenuScript : MonoBehaviour
             VolumeApply();
         }
     }
-
+    
     public IEnumerator ConfirmBox()
     {
         confirmBox.SetActive(true);
         yield return new WaitForSeconds(2);
         confirmBox.SetActive(false);
     }
+    */
 }

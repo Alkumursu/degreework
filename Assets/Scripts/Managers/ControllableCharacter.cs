@@ -74,6 +74,16 @@ public class ControllableCharacter : MonoBehaviour
 
     Outline outline;
 
+    //Pause menu
+    bool paused = false;
+    public GameObject pauseScreen;
+    bool characterChangeAllowed = false;
+
+    //End menu
+    bool emmaReachedEnd = false;
+    bool madisonReachedEnd = false;
+
+
     private void Awake()
     {
        GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
@@ -122,6 +132,20 @@ public class ControllableCharacter : MonoBehaviour
             exitingWaterRight = true;
             //Debug.Log("Exiting Water Right");
         }
+
+        /*if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.MadisonActive)
+        {
+            madisonReachedEnd = true;
+            GameEnding();
+            Debug.Log("Madison reached end");
+        }
+
+        if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.EmmaActive)
+        {
+            emmaReachedEnd = true;
+            GameEnding();
+            Debug.Log("Emma reached end");
+        }*/
     }
 
     private void OnTriggerStay(Collider other)
@@ -144,6 +168,18 @@ public class ControllableCharacter : MonoBehaviour
             _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
             //Debug.Log("Pushed Right");
         }
+
+        /*if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.MadisonActive)
+        {
+            madisonReachedEnd = true;
+            GameEnding();
+        }
+
+        if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.EmmaActive)
+        {
+            emmaReachedEnd = true;
+            GameEnding();
+        }*/
     }
 
     private void OnTriggerExit(Collider other)
@@ -157,7 +193,34 @@ public class ControllableCharacter : MonoBehaviour
         {
             exitingWaterRight = false;
         }
+
+        /*if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.MadisonActive)
+        {
+            madisonReachedEnd = false;
+            GameEnding();
+            Debug.Log("Madison missed the end");
+        }
+
+        if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.EmmaActive)
+        {
+            emmaReachedEnd = false;
+            GameEnding();
+            Debug.Log("Emma missed the end");
+        }*/
     }
+
+    /*public void GameEnding()
+    {
+        if (emmaReachedEnd == true && madisonReachedEnd == true)
+        {
+            Debug.Log("Game ends");
+            FindObjectOfType<GameManager>().HandleGameWon();
+        }
+        else
+        {
+            //Inform player they need both girls present
+        }
+    }*/
 
     private void EvaluateSubmergence()
     {
@@ -267,7 +330,6 @@ public class ControllableCharacter : MonoBehaviour
 
         movableBox = null;
         outline.enabled = false;
-
     }
 
     public bool IsGrounded()
@@ -325,6 +387,7 @@ public class ControllableCharacter : MonoBehaviour
     {
         _playerActions.Player_Map.Jump.performed += _ => HandleJump();
         _playerActions.Player_Map.ChangeCharacter.performed += _ => TriggerCharacterChange();
+        _playerActions.Player_Map.Pause.performed += _ => TriggerPauseMenu();
         //_playerActions.Player_Map.StairsTeleportation.performed += _ => HandleTeleportation();
 
         _rb.drag = 0;
@@ -429,7 +492,10 @@ public class ControllableCharacter : MonoBehaviour
 
     private void TriggerCharacterChange()
     {
-        GameManager.Instance.SetCharacterSwitchability(true);
+        if (paused == false) 
+        {
+            GameManager.Instance.SetCharacterSwitchability(true);
+        }
 
         if (GameManager.Instance.GetCharacterSwitchability() == false)
         {
@@ -448,8 +514,26 @@ public class ControllableCharacter : MonoBehaviour
         Debug.Log("Character change" + GameManager.Instance.State);
     }
 
+    public void TriggerPauseMenu()
+    {
+        paused = !paused;
+
+        if (paused)
+        {
+            Debug.Log("Pause menu activated");
+            pauseScreen.gameObject.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            pauseScreen.gameObject.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
+
     public void HandleDying()
     {
 
     }
+
 }

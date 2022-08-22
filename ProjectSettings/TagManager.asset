@@ -18,6 +18,7 @@ TagManager:
   - StairTeleporter3
   - StairTeleporter4
   - DoorButton
+  - EndingTrigger
   layers:
   - Default
   - TransparentFX

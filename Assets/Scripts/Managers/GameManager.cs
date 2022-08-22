@@ -14,24 +14,51 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
 
+    //Characters
     bool canSwitch;
     bool characterHasDied = false;
 
+    //Scenes
     public float restartDelay = 1f;
     [SerializeField] Image fadeToBlack;
     [SerializeField] float sceneLoadDelay = 3f;
 
+    //Pause screen
+    bool paused = false;
+    //public GameObject pauseScreen;
+
+    //Ending screen
+    //public static bool gameIsWon;
+    public GameObject gameWonScreen;
+
     private void Awake()
     {
+        //gameIsWon = false;
         Instance = this;
     }
     void Start()
     {
         // testing below, previously EmmaActive
-        UpdateGameState(GameState.EmmaActive);
+        UpdateGameState(GameState.MadisonActive);
         fadeToBlack.color = Color.black;
         fadeToBlack.DOFade(0f, sceneLoadDelay);
     }
+
+    /*private void Update()
+    {
+        if (gameIsWon)
+        {
+            Debug.Log("Manager is Winning");
+            gameWonScreen.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            gameWonScreen.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
+    */
 
     public void FadeIn(float fadeTime)
     {
@@ -60,9 +87,10 @@ public class GameManager : MonoBehaviour
 
         switch (State)
         {
-            case GameState.MainMenu:
+            /*case GameState.MainMenu:
                 HandleMainMenu();
                 break;
+            */
             case GameState.PauseMenu:
                 HandlePauseMenu();
                 break;
@@ -85,15 +113,19 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(State);
     }
 
-    private void HandleMainMenu()
+    /*private void HandleMainMenu()
     {
 
     }
+    */
 
-    private void HandlePauseMenu()
+    public void HandlePauseMenu()
     {
-
+        //Debug.Log("Pause menu activated");
+        //pauseScreen.gameObject.SetActive(true);
+        //Time.timeScale = 0f;
     }
+    
 
     private void HandleMadisonActive()
     {
@@ -105,9 +137,17 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void HandleGameWon()
+    public void HandleGameWon()
     {
+        Debug.Log("Manager is Winning");
+        gameWonScreen.SetActive(true);
+        Time.timeScale = 0f;
+    }
 
+    public void HandleContinue()
+    {
+        FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        paused = false;
     }
 
     public void HandleLoadCheckpoint()
@@ -120,11 +160,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Restart()
+    public void Restart()
     {
+        FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        paused = false;
+
         fadeToBlack.DOFade(1f, sceneLoadDelay);
         DOTween.KillAll();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ReturnMainMenu()
+    {
+        FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        paused = false;
+
+        fadeToBlack.DOFade(1f, sceneLoadDelay);
+        DOTween.KillAll();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 }
 
