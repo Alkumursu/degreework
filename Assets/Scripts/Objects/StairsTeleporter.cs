@@ -13,7 +13,9 @@ public class StairsTeleporter : MonoBehaviour
     ControllableCharacter cc;
     GameObject promptText;
 
-    bool teleported = false;
+    bool canTeleport;
+
+    Collider col;
 
     void Start()
     {
@@ -21,6 +23,7 @@ public class StairsTeleporter : MonoBehaviour
         _playerActions = new PlayerActions();
         _playerActions.Player_Map.Enable();
         promptText = transform.GetChild(0).gameObject;
+        canTeleport = false;
     }
 
     void Update()
@@ -40,32 +43,37 @@ public class StairsTeleporter : MonoBehaviour
 
     IEnumerator TeleportSequence()
     {
-        GameManager.Instance.FadeIn(fadeTime);
-        yield return new WaitForSeconds(fadeTime);
-        // Teleportation position
-        cc.TeleportPosition(endPosition);
-        yield return new WaitForSeconds(0.3f);
-        GameManager.Instance.FadeOut(fadeTime);
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        if(canTeleport == true)
         {
-            cc = collision.gameObject.GetComponent<ControllableCharacter>();
-
-            isHighlighted = true;
-            promptText.SetActive(true);
+            GameManager.Instance.FadeIn(fadeTime);
+            yield return new WaitForSeconds(fadeTime);
+            // Teleportation position
+            cc.TeleportPosition(endPosition);
+            yield return new WaitForSeconds(0.3f);
+            GameManager.Instance.FadeOut(fadeTime);
         }
     }
 
-    private void OnTriggerExit(Collider collision)
+    private void OnTriggerEnter(Collider col)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player"))
+        {
+            cc = col.gameObject.GetComponent<ControllableCharacter>();
+
+            isHighlighted = true;
+            promptText.SetActive(true);
+            canTeleport = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.CompareTag("Player"))
         {
             isHighlighted = false;
             cc = null;
             promptText.SetActive(false);
+            canTeleport = false;
         }
     }
 }

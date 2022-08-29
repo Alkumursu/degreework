@@ -49,7 +49,7 @@ public class PressurePlateManager : MonoBehaviour
         {
             //avaa ovet
             doorIsOpen = true;
-            _anim.CrossFade("DoorSlideOpen", 0.2f);
+            _anim.Play("DoorSlideOpen");
             Debug.Log("DoorOpen");
         }
         else
@@ -57,7 +57,7 @@ public class PressurePlateManager : MonoBehaviour
             if (doorIsOpen == true)
             {
                 //sulje ovet
-                _anim.CrossFade("DoorSlideClose", 0.2f);
+                _anim.Play("DoorSlideClose");
                 Debug.Log("DoorClose");
             }
 
