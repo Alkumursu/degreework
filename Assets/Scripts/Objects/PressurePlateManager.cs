@@ -9,6 +9,7 @@ public class PressurePlateManager : MonoBehaviour
     public Light[] lights;
     public Light[] doorLights;
     Animator _anim;
+    private bool doorIsOpen;
 
     void Start()
     {
@@ -33,26 +34,32 @@ public class PressurePlateManager : MonoBehaviour
                 lights[i].DOIntensity(1, 0.2f);
                 doorLights[i].DOIntensity(1, 0.2f);
                 //voit lisätä väriä
+                doorIsOpen = false;
             }
             else
             {
                 failure = true;
                 lights[i].DOIntensity(0, 0.2f);
                 doorLights[i].DOIntensity(0, 0.2f);
+                doorIsOpen = false;
             }
         } 
 
         if (!failure)
         {
             //avaa ovet
+            doorIsOpen = true;
             _anim.CrossFade("DoorSlideOpen", 0.2f);
             Debug.Log("DoorOpen");
         }
         else
         {
-            //sulje ovet
-            _anim.CrossFade("DoorSlideClose", 0.2f);
-            Debug.Log("DoorClose");
+            if (doorIsOpen == true)
+            {
+                //sulje ovet
+                _anim.CrossFade("DoorSlideClose", 0.2f);
+                Debug.Log("DoorClose");
+            }
 
         }
     }
