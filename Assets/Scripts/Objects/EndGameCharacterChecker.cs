@@ -77,6 +77,7 @@ public class EndGameCharacterChecker : MonoBehaviour
         }
         else
         {
+            Debug.Log("Both girls are needed");
             //Inform player they need both girls present
         }
 

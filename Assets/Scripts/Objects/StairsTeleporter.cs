@@ -5,17 +5,19 @@ using DG.Tweening;
 
 public class StairsTeleporter : MonoBehaviour
 {
-    Collider col;
+    //Collider col;
     [SerializeField] Vector3 endPosition;
     bool isHighlighted = false;
     public PlayerActions _playerActions;
-    float fadeTime = 1f;
+    float fadeTime = 0.5f;
     ControllableCharacter cc;
     GameObject promptText;
 
+    bool teleported = false;
+
     void Start()
     {
-        col = GetComponent<Collider>();
+        //col = GetComponent<Collider>();
         _playerActions = new PlayerActions();
         _playerActions.Player_Map.Enable();
         promptText = transform.GetChild(0).gameObject;
@@ -51,6 +53,7 @@ public class StairsTeleporter : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             cc = collision.gameObject.GetComponent<ControllableCharacter>();
+
             isHighlighted = true;
             promptText.SetActive(true);
         }

@@ -19,6 +19,8 @@ TagManager:
   - StairTeleporter4
   - DoorButton
   - EndingTrigger
+  - ClimbSlopeLeft
+  - ClimbSlopeRight
   layers:
   - Default
   - TransparentFX

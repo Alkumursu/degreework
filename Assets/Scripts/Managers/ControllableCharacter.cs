@@ -15,7 +15,7 @@ public class ControllableCharacter : MonoBehaviour
     public PlayerActions _playerActions;
     private Rigidbody _rb;
     private Vector2 _moveInput;
-    private float _crateDrag;
+    //private float _crateDrag;
 
     //Walk-run transition test WIP
     /*public float moveSpeed = 1.5f;
@@ -33,6 +33,7 @@ public class ControllableCharacter : MonoBehaviour
     //Crate
     [SerializeField]
     private float _pushPower;
+    private bool canRotate = true;
 
     //Animations
     private Animator _playerAnim;
@@ -48,6 +49,7 @@ public class ControllableCharacter : MonoBehaviour
 
     //Water
     [SerializeField] LayerMask waterMask;
+
     bool InWater => submergence > 0f;
     float submergence;
     [SerializeField] float submergenceOffset = 0.5f;
@@ -70,18 +72,19 @@ public class ControllableCharacter : MonoBehaviour
     //Crate
     FixedJoint joint;
     GameObject movableBox;
-    bool isPushing;
+    bool canPushCrate = false;
+    //bool isPushing;
 
     Outline outline;
 
     //Pause menu
     bool paused = false;
     public GameObject pauseScreen;
-    bool characterChangeAllowed = false;
+    //bool characterChangeAllowed = false;
 
-    //End menu
-    bool emmaReachedEnd = false;
-    bool madisonReachedEnd = false;
+    //Slope booster
+    bool boostingLeft = false;
+    bool boostingRight = false;
 
 
     private void Awake()
@@ -133,19 +136,15 @@ public class ControllableCharacter : MonoBehaviour
             //Debug.Log("Exiting Water Right");
         }
 
-        /*if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.MadisonActive)
+        if (other.gameObject.CompareTag("ClimbSlopeLeft") && currentPlayerState == PlayerState.Default)
         {
-            madisonReachedEnd = true;
-            GameEnding();
-            Debug.Log("Madison reached end");
+            boostingLeft = true;
         }
 
-        if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.EmmaActive)
+        if (other.gameObject.CompareTag("ClimbSlopeRight") && currentPlayerState == PlayerState.Default)
         {
-            emmaReachedEnd = true;
-            GameEnding();
-            Debug.Log("Emma reached end");
-        }*/
+            boostingRight = true;
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -169,17 +168,17 @@ public class ControllableCharacter : MonoBehaviour
             //Debug.Log("Pushed Right");
         }
 
-        /*if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.MadisonActive)
+        if (boostingLeft)
         {
-            madisonReachedEnd = true;
-            GameEnding();
+            Vector3 pushForce = new Vector3(-1, 1, 0);
+            _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
         }
 
-        if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.EmmaActive)
+        if (boostingRight)
         {
-            emmaReachedEnd = true;
-            GameEnding();
-        }*/
+            Vector3 pushForce = new Vector3(1, 1, 0);
+            _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -194,33 +193,16 @@ public class ControllableCharacter : MonoBehaviour
             exitingWaterRight = false;
         }
 
-        /*if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.MadisonActive)
+        if(other.gameObject.CompareTag("ClimbSlopeLeft"))
         {
-            madisonReachedEnd = false;
-            GameEnding();
-            Debug.Log("Madison missed the end");
+            boostingLeft = false;
         }
 
-        if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.EmmaActive)
+        if (other.gameObject.CompareTag("ClimbSlopeRight"))
         {
-            emmaReachedEnd = false;
-            GameEnding();
-            Debug.Log("Emma missed the end");
-        }*/
+            boostingRight = false;
+        }
     }
-
-    /*public void GameEnding()
-    {
-        if (emmaReachedEnd == true && madisonReachedEnd == true)
-        {
-            Debug.Log("Game ends");
-            FindObjectOfType<GameManager>().HandleGameWon();
-        }
-        else
-        {
-            //Inform player they need both girls present
-        }
-    }*/
 
     private void EvaluateSubmergence()
     {
@@ -285,6 +267,7 @@ public class ControllableCharacter : MonoBehaviour
     public void StopMovement()
     {
         _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -301,10 +284,10 @@ public class ControllableCharacter : MonoBehaviour
             */
         }
 
+        //Creating highlight
         if (collision.gameObject.CompareTag("MovableCrate"))
         {
             movableBox = collision.gameObject;
-
             outline = movableBox.GetComponent<Outline>();
             outline.enabled = true;
         }
@@ -327,7 +310,6 @@ public class ControllableCharacter : MonoBehaviour
     {
         _grounded = false;
         _playerAnim.SetBool("JumpGrounded", false);
-
         movableBox = null;
         outline.enabled = false;
     }
@@ -395,14 +377,14 @@ public class ControllableCharacter : MonoBehaviour
         _moveInput.y = _rb.velocity.y;
         Vector3 movementVelocity = new Vector3(_moveInput.x * _speed, _rb.velocity.y, 0);
 
-        if(!_grounded)
+        if (!_grounded)
         {
             movementVelocity.x = _rb.velocity.x;
         }
 
         _rb.velocity = Vector3.Lerp(_rb.velocity, movementVelocity, Time.fixedDeltaTime);
 
-        if (_moveInput.x != 0 && _grounded)
+        if (_moveInput.x != 0 && _grounded && !canPushCrate)
         {
             _playerAnim.SetBool("Running", true);
             _playerAnim.SetBool("Swimming", false);
@@ -410,14 +392,18 @@ public class ControllableCharacter : MonoBehaviour
 
             Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(playerDir, Vector3.up);
-            if(joint == null)
+            //FindObjectOfType<AudioManager>().Play("Steps");
+
+            if (joint == null)
             {
                 _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
+                canRotate = true;
             }
         }
         else
         {
             _playerAnim.SetBool("Running", false);
+            //FindObjectOfType<AudioManager>().StopPlaying("Steps");
         }
     }
 
@@ -446,6 +432,7 @@ public class ControllableCharacter : MonoBehaviour
             _playerAnim.SetBool("Swimming", true);
             Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(playerDir.normalized, Vector3.up);
+
             if (joint == null)
             {
                 _rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 8f));
@@ -457,8 +444,8 @@ public class ControllableCharacter : MonoBehaviour
     {
         //_crateDrag = _playerActions.Player_Map.DragCrate
 
-        // This is now toggle
-        bool buttonPressed = _playerActions.Player_Map.DragCrate.WasPressedThisFrame();
+        //Toggle version
+        /*bool buttonPressed = _playerActions.Player_Map.DragCrate.WasPressedThisFrame();
         Debug.Log("State " + buttonPressed);
 
         if (joint == null && movableBox != null && buttonPressed)
@@ -474,8 +461,46 @@ public class ControllableCharacter : MonoBehaviour
             Debug.Log("Joint destroyed");
             Destroy(joint);
         }
+        */
+
+        //Press key down version
+        bool buttonPressed = _playerActions.Player_Map.MoveCrate.IsPressed();
+
+        if (joint == null && movableBox != null && buttonPressed)
+        {
+            //_playerAnim.SetBool("Pushing", true);
+            //Debug.Log("Fixed joint");
+            joint = movableBox.AddComponent<FixedJoint>();
+            joint.connectedBody = _rb;
+            canPushCrate = true;
+            _playerAnim.SetBool("Running", false);
+            _playerAnim.SetBool("Pushing", true);
+            //Water pushing
+
+            if (joint != null)
+            {
+                canRotate = false;
+            }
+
+            if(canRotate == false)
+            {
+                //Add stuff depending on the way character is facing, raycast?
+            }
+        }
+
+        else if (!buttonPressed)
+        {
+            //Debug.Log("Joint destroyed");
+            Destroy(joint);
+            canPushCrate = false;
+            _playerAnim.SetBool("Pushing", false);
+            canRotate = true;
+            //_playerAnim.SetBool("Running", true);
+            //Water pushing
+        }
     }
 
+    //Moving the box without fixed joint
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.collider.CompareTag("MovableCrate"))

@@ -7,6 +7,7 @@ public class PressurePlateManager : MonoBehaviour
 {
     public PressurePlate[] pressurePlates;
     public Light[] lights;
+    public Light[] doorLights;
     Animator _anim;
 
     void Start()
@@ -30,12 +31,14 @@ public class PressurePlateManager : MonoBehaviour
                 //t‰h‰n valot tms.
                 //k‰ytet‰‰n dotweeni‰ valon intensity sis‰‰n ja pois
                 lights[i].DOIntensity(1, 0.2f);
+                doorLights[i].DOIntensity(1, 0.2f);
                 //voit lis‰t‰ v‰ri‰
             }
             else
             {
                 failure = true;
                 lights[i].DOIntensity(0, 0.2f);
+                doorLights[i].DOIntensity(0, 0.2f);
             }
         } 
 

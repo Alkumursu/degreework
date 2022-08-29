@@ -46,24 +46,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""LedgeHang"",
-                    ""type"": ""Button"",
-                    ""id"": ""7f3c40cc-3909-464d-9f6e-5c98a1db10e9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""CordHang"",
-                    ""type"": ""Value"",
-                    ""id"": ""6a66a3a0-c17f-45e9-9297-8561b2652916"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""ChangeCharacter"",
                     ""type"": ""Button"",
                     ""id"": ""7ac80a54-f48a-40b1-94dd-490b28a12a60"",
@@ -103,6 +85,15 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""b08b982c-98a1-4add-a1ce-9d7eec74b80d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveCrate"",
+                    ""type"": ""Button"",
+                    ""id"": ""cec460b3-f2e1-4519-ad6a-9358c28d3728"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -178,61 +169,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""67178273-9a8a-40be-80de-00cb24ed1d46"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LedgeHang"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""423a0a27-de5f-4a5d-884f-4ca83d465b60"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LedgeHang"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""6973695f-604b-4779-abd1-a0f326dda88d"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CordHang"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""a30b3cb8-9633-4f1a-b87d-7b779bfd63c0"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CordHang"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""4da862b2-b2a1-4f0e-91fd-4b9d89256d4c"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CordHang"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7d97248b-f585-4155-b17a-248b94594fd5"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
@@ -285,6 +221,17 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee16de78-973d-4a5d-af62-4656f9a02751"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveCrate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -295,13 +242,12 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
         m_Player_Map = asset.FindActionMap("Player_Map", throwIfNotFound: true);
         m_Player_Map_Movement = m_Player_Map.FindAction("Movement", throwIfNotFound: true);
         m_Player_Map_Jump = m_Player_Map.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Map_LedgeHang = m_Player_Map.FindAction("LedgeHang", throwIfNotFound: true);
-        m_Player_Map_CordHang = m_Player_Map.FindAction("CordHang", throwIfNotFound: true);
         m_Player_Map_ChangeCharacter = m_Player_Map.FindAction("ChangeCharacter", throwIfNotFound: true);
         m_Player_Map_DragCrate = m_Player_Map.FindAction("DragCrate", throwIfNotFound: true);
         m_Player_Map_Interact = m_Player_Map.FindAction("Interact", throwIfNotFound: true);
         m_Player_Map_StairsTeleportation = m_Player_Map.FindAction("StairsTeleportation", throwIfNotFound: true);
         m_Player_Map_Pause = m_Player_Map.FindAction("Pause", throwIfNotFound: true);
+        m_Player_Map_MoveCrate = m_Player_Map.FindAction("MoveCrate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -363,26 +309,24 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
     private IPlayer_MapActions m_Player_MapActionsCallbackInterface;
     private readonly InputAction m_Player_Map_Movement;
     private readonly InputAction m_Player_Map_Jump;
-    private readonly InputAction m_Player_Map_LedgeHang;
-    private readonly InputAction m_Player_Map_CordHang;
     private readonly InputAction m_Player_Map_ChangeCharacter;
     private readonly InputAction m_Player_Map_DragCrate;
     private readonly InputAction m_Player_Map_Interact;
     private readonly InputAction m_Player_Map_StairsTeleportation;
     private readonly InputAction m_Player_Map_Pause;
+    private readonly InputAction m_Player_Map_MoveCrate;
     public struct Player_MapActions
     {
         private @PlayerActions m_Wrapper;
         public Player_MapActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Map_Movement;
         public InputAction @Jump => m_Wrapper.m_Player_Map_Jump;
-        public InputAction @LedgeHang => m_Wrapper.m_Player_Map_LedgeHang;
-        public InputAction @CordHang => m_Wrapper.m_Player_Map_CordHang;
         public InputAction @ChangeCharacter => m_Wrapper.m_Player_Map_ChangeCharacter;
         public InputAction @DragCrate => m_Wrapper.m_Player_Map_DragCrate;
         public InputAction @Interact => m_Wrapper.m_Player_Map_Interact;
         public InputAction @StairsTeleportation => m_Wrapper.m_Player_Map_StairsTeleportation;
         public InputAction @Pause => m_Wrapper.m_Player_Map_Pause;
+        public InputAction @MoveCrate => m_Wrapper.m_Player_Map_MoveCrate;
         public InputActionMap Get() { return m_Wrapper.m_Player_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -398,12 +342,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnJump;
-                @LedgeHang.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnLedgeHang;
-                @LedgeHang.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnLedgeHang;
-                @LedgeHang.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnLedgeHang;
-                @CordHang.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnCordHang;
-                @CordHang.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnCordHang;
-                @CordHang.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnCordHang;
                 @ChangeCharacter.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
                 @ChangeCharacter.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
                 @ChangeCharacter.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnChangeCharacter;
@@ -419,6 +357,9 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnPause;
+                @MoveCrate.started -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnMoveCrate;
+                @MoveCrate.performed -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnMoveCrate;
+                @MoveCrate.canceled -= m_Wrapper.m_Player_MapActionsCallbackInterface.OnMoveCrate;
             }
             m_Wrapper.m_Player_MapActionsCallbackInterface = instance;
             if (instance != null)
@@ -429,12 +370,6 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @LedgeHang.started += instance.OnLedgeHang;
-                @LedgeHang.performed += instance.OnLedgeHang;
-                @LedgeHang.canceled += instance.OnLedgeHang;
-                @CordHang.started += instance.OnCordHang;
-                @CordHang.performed += instance.OnCordHang;
-                @CordHang.canceled += instance.OnCordHang;
                 @ChangeCharacter.started += instance.OnChangeCharacter;
                 @ChangeCharacter.performed += instance.OnChangeCharacter;
                 @ChangeCharacter.canceled += instance.OnChangeCharacter;
@@ -450,6 +385,9 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @MoveCrate.started += instance.OnMoveCrate;
+                @MoveCrate.performed += instance.OnMoveCrate;
+                @MoveCrate.canceled += instance.OnMoveCrate;
             }
         }
     }
@@ -458,12 +396,11 @@ public partial class @PlayerActions : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnLedgeHang(InputAction.CallbackContext context);
-        void OnCordHang(InputAction.CallbackContext context);
         void OnChangeCharacter(InputAction.CallbackContext context);
         void OnDragCrate(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnStairsTeleportation(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnMoveCrate(InputAction.CallbackContext context);
     }
 }

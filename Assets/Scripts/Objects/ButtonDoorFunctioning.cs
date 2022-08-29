@@ -33,6 +33,7 @@ public class ButtonDoorFunctioning : MonoBehaviour
     void ActivateButton()
     {
         _anim.SetTrigger("DoorTrigger");
+        FindObjectOfType<AudioManager>().Play("DoorSound");
     }
 
     private void OnTriggerEnter(Collider other)

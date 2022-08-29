@@ -23,25 +23,26 @@ public class GameManager : MonoBehaviour
     [SerializeField] Image fadeToBlack;
     [SerializeField] float sceneLoadDelay = 3f;
 
-    //Pause screen
-    bool paused = false;
-    //public GameObject pauseScreen;
-
     //Ending screen
-    //public static bool gameIsWon;
+    public static bool gameIsWon;
     public GameObject gameWonScreen;
 
     private void Awake()
     {
         //gameIsWon = false;
         Instance = this;
+
+        //testi
+        //FindObjectOfType<AudioManager>().StopPlaying("MenuMusic");
+        //FindObjectOfType<AudioManager>().Play("BGM");
     }
     void Start()
     {
-        // testing below, previously EmmaActive
         UpdateGameState(GameState.MadisonActive);
         fadeToBlack.color = Color.black;
         fadeToBlack.DOFade(0f, sceneLoadDelay);
+
+        gameIsWon = false;
     }
 
     /*private void Update()
@@ -139,15 +140,27 @@ public class GameManager : MonoBehaviour
 
     public void HandleGameWon()
     {
-        Debug.Log("Manager is Winning");
-        gameWonScreen.SetActive(true);
-        Time.timeScale = 0f;
+        gameIsWon = !gameIsWon;
+
+        if (gameIsWon)
+        {
+            Debug.Log("Manager is Winning");
+            gameWonScreen.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            gameWonScreen.SetActive(false);
+            Time.timeScale = 1f;
+        }
     }
 
     public void HandleContinue()
     {
-        FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
-        paused = false;
+        if (characterHasDied == false)
+        {
+            FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        }
     }
 
     public void HandleLoadCheckpoint()
@@ -162,23 +175,30 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
-        paused = false;
+        if (characterHasDied == false)
+        {
+            FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        }
 
         fadeToBlack.DOFade(1f, sceneLoadDelay);
         DOTween.KillAll();
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ReturnMainMenu()
     {
-        FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
-        paused = false;
+        if (characterHasDied == false)
+        {
+            FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        }
 
         fadeToBlack.DOFade(1f, sceneLoadDelay);
         DOTween.KillAll();
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
+        //FindObjectOfType<AudioManager>().StopPlaying("BGM");
+        //FindObjectOfType<AudioManager>().Play("MenuMusic");
     }
 }
 
