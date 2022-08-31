@@ -71,7 +71,7 @@ public class StairsTeleporter : MonoBehaviour
         if (col.gameObject.CompareTag("Player"))
         {
             isHighlighted = false;
-            cc = null;
+            //cc = null;
             promptText.SetActive(false);
             canTeleport = false;
         }

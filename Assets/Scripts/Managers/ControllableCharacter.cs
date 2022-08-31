@@ -29,6 +29,7 @@ public class ControllableCharacter : MonoBehaviour
     [SerializeField]
     private float _jumpPower;
     private bool _grounded;
+    private bool _hasLanded;
 
     //Crate
     [SerializeField]
@@ -231,6 +232,8 @@ public class ControllableCharacter : MonoBehaviour
         {
             currentPlayerState = PlayerState.Swimming;
             _playerAnim.SetBool("Running", false);
+            _playerAnim.SetBool("Idle", false);
+            _playerAnim.SetBool("Jumping", false);
             playerStateText.text = "Player state: " + currentPlayerState;
         }  
     }
@@ -238,8 +241,9 @@ public class ControllableCharacter : MonoBehaviour
     public void MadisonDeath()
     {
             currentPlayerState = PlayerState.Dying;
+            _playerAnim.Play("Death");
             _playerAnim.SetBool("Running", false);
-            //_playerAnim.SetBool("Dying", true);
+            _playerAnim.SetBool("Jumping", false);
             playerStateText.text = "Player state: " + currentPlayerState;
             FindObjectOfType<GameManager>().HandleLoadCheckpoint();
     }
@@ -275,8 +279,16 @@ public class ControllableCharacter : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, 2f))
         {
             _grounded = true;
+            _hasLanded = true;
+
+            if (_hasLanded && _grounded)
+            {   
+                 _playerAnim.SetBool("Jumping", false);
+                 //_playerAnim.SetBool("Idle", false);
+            }
+
             //_playerAnim.SetBool("JumpGrounded", true);
-            _playerAnim.SetTrigger("Landing");
+            //_playerAnim.SetTrigger("Landing");
 
             /*_playerAnim.SetBool("Jumping", false);
             _jumping = false;
@@ -309,7 +321,8 @@ public class ControllableCharacter : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         _grounded = false;
-        _playerAnim.SetBool("JumpGrounded", false);
+        _hasLanded = false;
+        //_playerAnim.SetBool("JumpGrounded", false);
         movableBox = null;
         outline.enabled = false;
     }
@@ -387,6 +400,7 @@ public class ControllableCharacter : MonoBehaviour
         if (_moveInput.x != 0 && _grounded && !canPushCrate)
         {
             _playerAnim.SetBool("Running", true);
+            _playerAnim.SetBool("Idle", false);
             _playerAnim.SetBool("Swimming", false);
             _playerAnim.SetBool("SwimmingIdle", false);
 
@@ -400,6 +414,35 @@ public class ControllableCharacter : MonoBehaviour
                 canRotate = true;
             }
         }
+        else if(_moveInput.x != 0 && !_grounded && !canPushCrate)
+        {
+            _playerAnim.SetBool("Running", false);
+            _playerAnim.SetBool("Idle", false);
+
+            /*if (_hasLanded)
+            {
+                _playerAnim.SetBool("Idle", false);
+            }
+            if (!_hasLanded)
+            {
+                _playerAnim.SetBool("Idle", false);
+            }
+            */
+        }
+        else if(_moveInput.x == 0 && !_grounded && !canPushCrate)
+        {
+            _playerAnim.SetBool("Running", false);
+            //_playerAnim.SetBool("Idle", false);
+
+            if (_hasLanded)
+            {
+                _playerAnim.SetBool("Jumping", false);
+            }
+            if (!_hasLanded)
+            {
+                _playerAnim.SetBool("Idle", false);
+            }
+        }
         else
         {
             _playerAnim.SetBool("Running", false);
@@ -409,11 +452,18 @@ public class ControllableCharacter : MonoBehaviour
 
     private void HandleJump()
     {
-        if (IsGrounded() && submergence < 1)
+        //_playerAnim.SetBool("Idle", false);
+
+        if (IsGrounded() && submergence < 0.66f)
         {
             _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
             //testipoisto
-            //_playerAnim.SetBool("Jumping", true);
+            _playerAnim.SetBool("Idle", false);
+            _playerAnim.SetBool("Jumping", true);
+        }
+        else if (_hasLanded)
+        {
+            _playerAnim.SetBool("Jumping", false);
         }
     }
 
@@ -425,11 +475,15 @@ public class ControllableCharacter : MonoBehaviour
         _rb.velocity = Vector3.Lerp(_rb.velocity, movementVelocity, Time.fixedDeltaTime);
         _playerAnim.SetBool("SwimmingIdle", true);
         _playerAnim.SetBool("Swimming", false);
+        //_playerAnim.SetBool("Jumping", false);
+        _playerAnim.SetBool("Idle", false);
 
         if (_moveInput.x != 0)
         {
             _playerAnim.SetBool("SwimmingIdle", false);
             _playerAnim.SetBool("Swimming", true);
+            //_playerAnim.SetBool("Jumping", false);
+            _playerAnim.SetBool("Idle", false);
             Vector3 playerDir = new Vector3(_moveInput.x, 0, 0);
             Quaternion targetRotation = Quaternion.LookRotation(playerDir.normalized, Vector3.up);
 
@@ -466,15 +520,43 @@ public class ControllableCharacter : MonoBehaviour
         //Press key down version
         bool buttonPressed = _playerActions.Player_Map.MoveCrate.IsPressed();
 
+        /*if (joint && submergence < 0.66f && _moveInput.x != 0)
+        {
+            _playerAnim.speed = _moveInput.x;
+        }*/
+
         if (joint == null && movableBox != null && buttonPressed)
         {
             //_playerAnim.SetBool("Pushing", true);
             //Debug.Log("Fixed joint");
             joint = movableBox.AddComponent<FixedJoint>();
             joint.connectedBody = _rb;
+            //If you wish to define the joint breaking force
+            //joint.breakForce = 10f;
             canPushCrate = true;
             _playerAnim.SetBool("Running", false);
-            _playerAnim.SetBool("Pushing", true);
+
+            if(submergence < 0.66f)
+            {
+                _playerAnim.SetBool("Pushing", true);
+                /*
+                if (_moveInput.x != 0)
+                {
+                    _playerAnim.SetBool("Pushing", true);
+                    _playerAnim.SetBool("PushIdle", false);
+                }
+                else if(_moveInput.x == 0)
+                {
+                    _playerAnim.SetBool("PushIdle", true);
+                    _playerAnim.SetBool("Pushing", false);
+                }
+                */
+            }
+            else if(submergence >= 0.66f)
+            {
+                _playerAnim.SetBool("SwimmingPush", true);
+            }
+            
             //Water pushing
 
             if (joint != null)
@@ -494,6 +576,8 @@ public class ControllableCharacter : MonoBehaviour
             Destroy(joint);
             canPushCrate = false;
             _playerAnim.SetBool("Pushing", false);
+            _playerAnim.SetBool("SwimmingPush", false);
+            //_playerAnim.SetBool("PushIdle", false);
             canRotate = true;
             //_playerAnim.SetBool("Running", true);
             //Water pushing

@@ -48,6 +48,8 @@ public class ButtonDoorFunctioning : MonoBehaviour
 
             pointLight.DOIntensity(0, 0.2f);
             doorIsOpen = true;
+            isHighlighted = false;
+            canOpenDoor = false;
         }
 
         else if(doorIsOpen == true)

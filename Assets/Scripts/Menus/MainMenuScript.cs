@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
+using DG.Tweening;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -30,8 +31,15 @@ public class MainMenuScript : MonoBehaviour
     public TMP_Dropdown resolutionDropDown;
     private Resolution[] resolutions;
 
+    float fadeTime = 0.5f;
+    [SerializeField] Image fadeToBlack;
+
+
     private void Start()
     {
+        fadeToBlack.color = Color.black;
+        fadeToBlack.DOFade(0f, fadeTime);
+
         /*
         Application.targetFrameRate = 60;
 
@@ -67,6 +75,14 @@ public class MainMenuScript : MonoBehaviour
 
     public void NewGame()
     {
+        StartCoroutine(StartSequence());
+    }
+
+    IEnumerator StartSequence()
+    {
+        fadeToBlack.DOFade(1f, fadeTime);
+        yield return new WaitForSeconds(fadeTime);
+        DOTween.KillAll();
         SceneManager.LoadScene(1);
     }
 
@@ -88,10 +104,25 @@ public class MainMenuScript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+        //StartCoroutine(EndSequence());
     }
 
-    
-    
+    /*
+    IEnumerator EndSequence()
+    {
+        fadeToBlack.DOFade(1f, fadeTime);
+        yield return new WaitForSeconds(fadeTime);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+        
+    }
+    */
+
+
+
     //--- OPTIONS MENU ---//
 
     /*
