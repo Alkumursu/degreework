@@ -11,6 +11,7 @@ public class LightRotation : MonoBehaviour
 
     void Update()
     {
+        //Light rotates when active
         transform.Rotate(new Vector3(0, 100, 0) * Time.deltaTime);
     }
 }
