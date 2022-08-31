@@ -39,11 +39,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UpdateGameState(GameState.MadisonActive);
-        fadeToBlack.color = Color.black;
-        fadeToBlack.DOFade(1f, fadeTime);
-        fadeToBlack.DOFade(0f, fadeTime);
-
-
         gameIsWon = false;
     }
 

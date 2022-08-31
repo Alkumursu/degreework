@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PressurePlateDoorFunctioning : MonoBehaviour
 {
@@ -19,19 +20,33 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
     private bool emmaOnPlate = false;
     //private bool plateIsPressured = false;
 
+    [SerializeField] Light doorLight, plateLight;
+    private bool lightsOn = false;
+
     void Start()
     {
         /*_meshRend = GetComponent<MeshRenderer>();
         if (_meshRend is null)
             Debug.LogError("MeshRenderer is null!");
         */
-
         _anim = this.GetComponent<Animator>();
+
+        doorLight.DOIntensity(0, 0.2f);
+        plateLight.DOIntensity(0, 0.2f);
     }
 
     void Update()
     {
-        
+        if (lightsOn == true)
+        {
+            doorLight.DOIntensity(1, 0.2f);
+            plateLight.DOIntensity(1, 0.2f);
+        }
+        else
+        {
+            doorLight.DOIntensity(0, 0.2f);
+            plateLight.DOIntensity(0, 0.2f);
+        }
     }
 
 
@@ -40,6 +55,9 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
         if (other.gameObject.CompareTag("Emma"))
         {
             emmaOnPlate = true;
+            lightsOn = true;
+            doorLight.DOIntensity(1, 0.2f);
+            plateLight.DOIntensity(1, 0.2f);
             Debug.Log("Emma has stepped on the plate");
 
             if (madisonOnPlate == false && crateOnPlate == false)
@@ -51,6 +69,7 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
         if (other.gameObject.CompareTag("Madison"))
         {
             madisonOnPlate = true;
+            lightsOn = true;
             Debug.Log("Madison has stepped on the plate");
                 
             if (emmaOnPlate == false && crateOnPlate == false)
@@ -62,6 +81,7 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
         if (other.gameObject.CompareTag("MovableCrate"))
         {
             crateOnPlate = true;
+            lightsOn = true;
             Debug.Log("Crate is on the plate");
 
             if (madisonOnPlate == false && emmaOnPlate == false)
@@ -110,6 +130,9 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
         if (emmaOnPlate == false && madisonOnPlate == false && crateOnPlate == false)
         {
             Debug.Log("Door should close");
+            lightsOn = false;
+            doorLight.DOIntensity(0, 0.2f);
+            plateLight.DOIntensity(0, 0.2f);
             _anim.Play("DoorSlideClose");
         }
     }

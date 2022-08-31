@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fade to Black
       objectReference: {fileID: 0}
+    - target: {fileID: 5497564085575364040, guid: 7269fc5a90be9d642a693ae7b2970919, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5497564085575364041, guid: 7269fc5a90be9d642a693ae7b2970919, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -550,6 +554,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &670378728 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5482948919254712332, guid: 5ebd0e6c8bbcad24da1db5d31464092f, type: 3}
+  m_PrefabInstance: {fileID: 1546661978}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &758596997
@@ -1018,7 +1033,7 @@ MonoBehaviour:
   qualityDropDown: {fileID: 2057877193}
   fullScreenToggle: {fileID: 600947563}
   resolutionDropDown: {fileID: 368217661}
-  fadeToBlack: {fileID: 0}
+  fadeToBlack: {fileID: 670378728}
 --- !u!4 &1288460521
 Transform:
   m_ObjectHideFlags: 0
@@ -1182,6 +1197,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -185.78604
       objectReference: {fileID: 0}
+    - target: {fileID: 2808786872512381294, guid: 5ebd0e6c8bbcad24da1db5d31464092f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1288460520}
+    - target: {fileID: 2808786872512381294, guid: 5ebd0e6c8bbcad24da1db5d31464092f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitGame
+      objectReference: {fileID: 0}
     - target: {fileID: 2808786872512381295, guid: 5ebd0e6c8bbcad24da1db5d31464092f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1293,6 +1316,10 @@ PrefabInstance:
     - target: {fileID: 2808786872773377557, guid: 5ebd0e6c8bbcad24da1db5d31464092f, type: 3}
       propertyPath: m_Name
       value: Main Menu Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5482948919254712334, guid: 5ebd0e6c8bbcad24da1db5d31464092f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ebd0e6c8bbcad24da1db5d31464092f, type: 3}

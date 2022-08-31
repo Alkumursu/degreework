@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class ButtonDoorFunctioning : MonoBehaviour
+public class ButtonDoorFunctioning_ExceptionDoor : MonoBehaviour
 {
-    Collider col;
     bool isHighlighted = false;
     public PlayerActions _playerActions;
-    //ControllableCharacter cc;
     GameObject doorPromptText;
     Animator _anim;
 
@@ -18,7 +16,6 @@ public class ButtonDoorFunctioning : MonoBehaviour
 
     void Start()
     {
-        //col = GetComponent<Collider>();
         doorPromptText = transform.GetChild(0).gameObject;
         _playerActions = new PlayerActions();
         _playerActions.Player_Map.Enable();
@@ -31,7 +28,7 @@ public class ButtonDoorFunctioning : MonoBehaviour
 
     void Update()
     {
-        if (isHighlighted)
+        if (isHighlighted && canOpenDoor == true)
         {
             Debug.Log("Door opened");
             _playerActions.Player_Map.Interact.performed += _ => ActivateButton();
@@ -40,9 +37,8 @@ public class ButtonDoorFunctioning : MonoBehaviour
 
     void ActivateButton()
     {
-        if(doorIsOpen == false && canOpenDoor == true)
+        if (doorIsOpen == false)
         {
-            //_anim.SetTrigger("DoorTrigger");
             _anim.Play("DoorSlideOpen");
             //FindObjectOfType<AudioManager>().Play("DoorSound");
 
@@ -50,18 +46,8 @@ public class ButtonDoorFunctioning : MonoBehaviour
             doorIsOpen = true;
             isHighlighted = false;
             canOpenDoor = false;
-            doorPromptText.SetActive(false);
-        }
-
-        else if(doorIsOpen == true)
-        {
-            //_anim.SetTrigger("DoorTrigger");
-            _anim.Play("DoorSlideClose");
-            //FindObjectOfType<AudioManager>().Play("DoorSound");
-
-            pointLight.DOIntensity(1, 0.2f);
-            doorIsOpen = false;
-            canOpenDoor = false;
+            Destroy(doorPromptText);
+            Destroy(this);
         }
     }
 
@@ -74,17 +60,6 @@ public class ButtonDoorFunctioning : MonoBehaviour
             canOpenDoor = true;
         }
     }
-
-    /*private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            isHighlighted = true;
-            //doorPromptText.SetActive(true);
-        }
-    }
-    */
-    
     private void OnTriggerExit(Collider col)
     {
         if (col.gameObject.CompareTag("Player"))

@@ -37,8 +37,8 @@ public class MainMenuScript : MonoBehaviour
 
     private void Start()
     {
-        fadeToBlack.color = Color.black;
-        fadeToBlack.DOFade(0f, fadeTime);
+        //fadeToBlack.color = Color.black;
+        //fadeToBlack.DOFade(0f, fadeTime);
 
         /*
         Application.targetFrameRate = 60;
@@ -103,11 +103,10 @@ public class MainMenuScript : MonoBehaviour
 
     public void ExitGame()
     {
-        Application.Quit();
-        //StartCoroutine(EndSequence());
+        StartCoroutine(EndSequence());
     }
 
-    /*
+    
     IEnumerator EndSequence()
     {
         fadeToBlack.DOFade(1f, fadeTime);
@@ -119,7 +118,7 @@ public class MainMenuScript : MonoBehaviour
 #endif
         
     }
-    */
+    
 
 
 

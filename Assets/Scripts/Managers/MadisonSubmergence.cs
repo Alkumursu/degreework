@@ -45,7 +45,7 @@ public class MadisonSubmergence : MonoBehaviour
         {
             _rb.drag = waterDrag;
             //_rb.velocity += Physics.gravity * ((1f - buoyancy * submergence) * Time.deltaTime);
-            _rb.AddForce(Vector3.up * Mathf.Lerp(0, 700, Time.fixedDeltaTime), ForceMode.Acceleration);
+            _rb.AddForce(Vector3.up * Mathf.Lerp(0, 600, Time.fixedDeltaTime), ForceMode.Acceleration);
         }
         else
         {
@@ -59,7 +59,6 @@ public class MadisonSubmergence : MonoBehaviour
         if ((waterMask & (1 << other.gameObject.layer)) != 0)
         {
             EvaluateSubmergence();
-            //Tämän Madison tunnistaa hypätessäänkin
             Debug.Log("Water");
         }
     }
@@ -81,7 +80,6 @@ public class MadisonSubmergence : MonoBehaviour
             if (submergence > 0.66f)
                 //aiemmin 0.66f
             {
-                //tarvii fixausta, Madisonin hypätessä veteen tämä ei aktivoidu
                 Debug.Log("Madison death sequence has started");
                 cc.MadisonDeath();
             }
