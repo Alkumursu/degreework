@@ -8,7 +8,7 @@ public class MadisonMonologue : MonoBehaviour
     [SerializeField] GameObject madisonSpeaks1, madisonSpeaks2;
 
     private bool madisonHasSpokenOnce;
-    private bool madisonHasSpokenTwice;
+    public bool madisonHasSpokenTwice;
 
 
     void Start()
@@ -35,7 +35,7 @@ public class MadisonMonologue : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider collision)
+    /*private void OnTriggerExit(Collider collision)
     {
         if (collision.gameObject.CompareTag("Madison") && madisonHasSpokenTwice == true)
         {
@@ -43,9 +43,8 @@ public class MadisonMonologue : MonoBehaviour
             madisonSpeaks2.SetActive(false);
             Destroy(dialogueBackground);
             Destroy(madisonSpeaks2);
-            
         }
-    }
+    }*/
 
     private void MadisonHasSpokenOnce()
     {
@@ -68,5 +67,13 @@ public class MadisonMonologue : MonoBehaviour
         dialogueBackground.SetActive(false);
         madisonSpeaks2.SetActive(false);
         madisonHasSpokenTwice = true;
+        EndMonologue();
+    }
+    public void EndMonologue()
+    {
+        dialogueBackground.SetActive(false);
+        madisonSpeaks2.SetActive(false);
+        Destroy(dialogueBackground);
+        Destroy(madisonSpeaks2);
     }
 }

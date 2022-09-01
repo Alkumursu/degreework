@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class StairsTeleporter : MonoBehaviour
+public class StairsTeleporter_Exception : MonoBehaviour
 {
     //Collider col;
     [SerializeField] Vector3 endPosition;
@@ -17,8 +17,8 @@ public class StairsTeleporter : MonoBehaviour
 
     Collider col;
 
-    //public MadisonMonologue madMon;
-    //public bool allowTeleportation = false;
+    public MadisonMonologue madMon;
+    public bool allowTeleportation = false;
 
     void Start()
     {
@@ -31,12 +31,11 @@ public class StairsTeleporter : MonoBehaviour
 
     void Update()
     {
-        /*
-        if(madMon.madisonHasSpokenTwice == true)
+        if (madMon.madisonHasSpokenTwice == true)
         {
             allowTeleportation = true;
         }
-        */
+
         if (isHighlighted)
         {
             Debug.Log("Stairs ready");
@@ -52,7 +51,7 @@ public class StairsTeleporter : MonoBehaviour
 
     IEnumerator TeleportSequence()
     {
-        if(canTeleport == true)
+        if (canTeleport == true)
         {
             GameManager.Instance.FadeIn(fadeTime);
             yield return new WaitForSeconds(fadeTime);
@@ -65,7 +64,7 @@ public class StairsTeleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.CompareTag("Player")) //&& allowTeleportation == true)
+        if (col.gameObject.CompareTag("Player") && allowTeleportation == true)
         {
             cc = col.gameObject.GetComponent<ControllableCharacter>();
 
