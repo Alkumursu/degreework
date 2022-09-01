@@ -5,12 +5,16 @@ using DG.Tweening;
 
 public class ButtonDoorFunctioning : MonoBehaviour
 {
-    //Collider col;
+    Collider col;
     bool isHighlighted = false;
     public PlayerActions _playerActions;
     //ControllableCharacter cc;
     GameObject doorPromptText;
     Animator _anim;
+
+    private bool doorIsOpen;
+    private bool canOpenDoor;
+    [SerializeField] Light pointLight;
 
     void Start()
     {
@@ -19,6 +23,10 @@ public class ButtonDoorFunctioning : MonoBehaviour
         _playerActions = new PlayerActions();
         _playerActions.Player_Map.Enable();
         _anim = this.GetComponent<Animator>();
+
+        doorIsOpen = false;
+        canOpenDoor = false;
+        pointLight.DOIntensity(1, 0.2f);
     }
 
     void Update()
@@ -32,30 +40,58 @@ public class ButtonDoorFunctioning : MonoBehaviour
 
     void ActivateButton()
     {
-        _anim.SetTrigger("DoorTrigger");
+        if(doorIsOpen == false && canOpenDoor == true)
+        {
+            //_anim.SetTrigger("DoorTrigger");
+            _anim.Play("DoorSlideOpen");
+            //FindObjectOfType<AudioManager>().Play("DoorSound");
+
+            pointLight.DOIntensity(0, 0.2f);
+            doorIsOpen = true;
+            isHighlighted = false;
+            canOpenDoor = false;
+            doorPromptText.SetActive(false);
+        }
+
+        else if(doorIsOpen == true)
+        {
+            //_anim.SetTrigger("DoorTrigger");
+            _anim.Play("DoorSlideClose");
+            //FindObjectOfType<AudioManager>().Play("DoorSound");
+
+            pointLight.DOIntensity(1, 0.2f);
+            doorIsOpen = false;
+            canOpenDoor = false;
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.CompareTag("Player"))
+        {
+            isHighlighted = true;
+            doorPromptText.SetActive(true);
+            canOpenDoor = true;
+        }
+    }
+
+    /*private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             isHighlighted = true;
-            doorPromptText.SetActive(true);
+            //doorPromptText.SetActive(true);
         }
     }
-
-    /*private void OnTriggerStay(Collider collision)
-    {
-        
-    }
     */
-
-    private void OnTriggerExit(Collider other)
+    
+    private void OnTriggerExit(Collider col)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player"))
         {
             isHighlighted = false;
             doorPromptText.SetActive(false);
+            canOpenDoor = false;
         }
     }
 }

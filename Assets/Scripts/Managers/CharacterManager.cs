@@ -15,6 +15,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] GameObject emmaCharacter, madisonCharacter;
     private GameObject currentCharacter;
     private ControllableCharacter cc;
+    public bool madHasPassedTrigger = false;
 
     //Camera
     public Vector3 cameraOffset;
@@ -111,7 +112,7 @@ public class CharacterManager : MonoBehaviour
 
     private void GameManagerOnOnGameStateChanged(GameState state)
     {
-        if(state == GameState.EmmaActive)
+        if(state == GameState.EmmaActive && madHasPassedTrigger == true)
         {
             SwitchTo(emmaCharacter);
         }
@@ -131,5 +132,13 @@ public class CharacterManager : MonoBehaviour
         _rb = newCharacter.GetComponent<Rigidbody>();
         cc._playerActions.Player_Map.Enable();
         cc.SetActivity(true);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Madison"))
+        {
+            madHasPassedTrigger = true;
+        }
     }
 }

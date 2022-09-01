@@ -31,7 +31,7 @@ public class LoadPrefs : MonoBehaviour
             }
             else
             {
-                menuController.ResetButton("Audio");
+                //menuController.ResetButton("Audio");
             }
             if (PlayerPrefs.HasKey("masterQuality"))
             {

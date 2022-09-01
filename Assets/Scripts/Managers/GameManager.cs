@@ -14,23 +14,32 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
 
+    //Characters
     bool canSwitch;
     bool characterHasDied = false;
 
+    //Scenes
     public float restartDelay = 1f;
     [SerializeField] Image fadeToBlack;
-    [SerializeField] float sceneLoadDelay = 3f;
+    //[SerializeField] float sceneLoadDelay = 3f;
+    float fadeTime = 0.5f;
+
+    //Ending screen
+    public static bool gameIsWon;
+    public GameObject gameWonScreen;
 
     private void Awake()
     {
         Instance = this;
+
+        //testi
+        //FindObjectOfType<AudioManager>().StopPlaying("MenuMusic");
+        //FindObjectOfType<AudioManager>().Play("BGM");
     }
     void Start()
     {
-        // testing below, previously EmmaActive
-        UpdateGameState(GameState.EmmaActive);
-        fadeToBlack.color = Color.black;
-        fadeToBlack.DOFade(0f, sceneLoadDelay);
+        UpdateGameState(GameState.MadisonActive);
+        gameIsWon = false;
     }
 
     public void FadeIn(float fadeTime)
@@ -60,9 +69,10 @@ public class GameManager : MonoBehaviour
 
         switch (State)
         {
-            case GameState.MainMenu:
+            /*case GameState.MainMenu:
                 HandleMainMenu();
                 break;
+            */
             case GameState.PauseMenu:
                 HandlePauseMenu();
                 break;
@@ -85,15 +95,19 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(State);
     }
 
-    private void HandleMainMenu()
+    /*private void HandleMainMenu()
     {
 
     }
+    */
 
-    private void HandlePauseMenu()
+    public void HandlePauseMenu()
     {
-
+        //Debug.Log("Pause menu activated");
+        //pauseScreen.gameObject.SetActive(true);
+        //Time.timeScale = 0f;
     }
+    
 
     private void HandleMadisonActive()
     {
@@ -105,9 +119,29 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void HandleGameWon()
+    public void HandleGameWon()
     {
+        gameIsWon = !gameIsWon;
 
+        if (gameIsWon)
+        {
+            Debug.Log("Manager is Winning");
+            gameWonScreen.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            gameWonScreen.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void HandleContinue()
+    {
+        if (characterHasDied == false)
+        {
+            FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        }
     }
 
     public void HandleLoadCheckpoint()
@@ -120,11 +154,73 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Restart()
+    public void Restart()
     {
+        if (characterHasDied == false)
+        {
+            FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        }
+
+        StartCoroutine(RestartSequence());
+        
+        /*
         fadeToBlack.DOFade(1f, sceneLoadDelay);
         DOTween.KillAll();
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        */
+        
+    }
+
+    public void ReturnMainMenu()
+    {
+        if (characterHasDied == false)
+        {
+            FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+        }
+
+        StartCoroutine(LoadMainMenu());
+
+        /*fadeToBlack.DOFade(1f, sceneLoadDelay);
+        FadeIn(fadeTime);
+        DOTween.KillAll();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
+        FadeOut(fadeTime);
+        */
+
+        //FindObjectOfType<AudioManager>().StopPlaying("BGM");
+        //FindObjectOfType<AudioManager>().Play("MenuMusic");
+    }
+
+    IEnumerator LoadMainMenu()
+    {
+        Time.timeScale = 1f;
+        FadeIn(fadeTime);
+        yield return new WaitForSeconds(0.3f);
+        DOTween.KillAll();
+        SceneManager.LoadScene(0);
+
+        //yield return new WaitForSeconds(0.3f);
+        //FadeOut(fadeTime);
+    }
+
+    IEnumerator RestartSequence()
+    {
+        Time.timeScale = 1f;
+        FadeIn(fadeTime);
+        yield return new WaitForSeconds(0.3f);
+        DOTween.KillAll();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        /*yield return new WaitForSeconds(0.3f);
+        fadeToBlack.DOFade(1f, sceneLoadDelay);
+        FadeOut(fadeTime);
+        DOTween.KillAll();
+        */
+
+        //FindObjectOfType<AudioManager>().StopPlaying("BGM");
+        //FindObjectOfType<AudioManager>().Play("MenuMusic");
     }
 }
 

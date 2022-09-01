@@ -24,24 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "LedgeHang",
-                    "type": "Button",
-                    "id": "7f3c40cc-3909-464d-9f6e-5c98a1db10e9",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "CordHang",
-                    "type": "Value",
-                    "id": "6a66a3a0-c17f-45e9-9297-8561b2652916",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "ChangeCharacter",
                     "type": "Button",
                     "id": "7ac80a54-f48a-40b1-94dd-490b28a12a60",
@@ -72,6 +54,24 @@
                     "name": "StairsTeleportation",
                     "type": "Button",
                     "id": "c124e2c4-44f6-4606-8e6f-63df011ec7d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "b08b982c-98a1-4add-a1ce-9d7eec74b80d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveCrate",
+                    "type": "Button",
+                    "id": "cec460b3-f2e1-4519-ad6a-9358c28d3728",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -147,61 +147,6 @@
                 },
                 {
                     "name": "",
-                    "id": "67178273-9a8a-40be-80de-00cb24ed1d46",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LedgeHang",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "423a0a27-de5f-4a5d-884f-4ca83d465b60",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LedgeHang",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "2D Vector",
-                    "id": "6973695f-604b-4779-abd1-a0f326dda88d",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CordHang",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "a30b3cb8-9633-4f1a-b87d-7b779bfd63c0",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CordHang",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "4da862b2-b2a1-4f0e-91fd-4b9d89256d4c",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CordHang",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
                     "id": "7d97248b-f585-4155-b17a-248b94594fd5",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -214,7 +159,7 @@
                 {
                     "name": "",
                     "id": "fa8a251d-a40a-406a-ab5b-e1f91587343d",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/1",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "",
@@ -241,6 +186,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "StairsTeleportation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d247e1f-a3a4-4d51-a0a1-19455330e7d4",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee16de78-973d-4a5d-af62-4656f9a02751",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Hold(duration=0.1,pressPoint=0.1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveCrate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PressurePlateDoorFunctioning : MonoBehaviour
 {
@@ -14,43 +15,125 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
     //[SerializeField] GameObject door;
     Animator _anim;
 
+    private bool crateOnPlate = false;
+    private bool madisonOnPlate = false;
+    private bool emmaOnPlate = false;
+    //private bool plateIsPressured = false;
+
+    [SerializeField] Light doorLight, plateLight;
+    private bool lightsOn = false;
+
     void Start()
     {
         /*_meshRend = GetComponent<MeshRenderer>();
         if (_meshRend is null)
             Debug.LogError("MeshRenderer is null!");
         */
-
         _anim = this.GetComponent<Animator>();
+
+        doorLight.DOIntensity(0, 0.2f);
+        plateLight.DOIntensity(0, 0.2f);
     }
 
     void Update()
     {
-        
+        if (lightsOn == true)
+        {
+            doorLight.DOIntensity(1, 0.2f);
+            plateLight.DOIntensity(1, 0.2f);
+        }
+        else
+        {
+            doorLight.DOIntensity(0, 0.2f);
+            plateLight.DOIntensity(0, 0.2f);
+        }
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("MovableCrate"))
+        if (other.gameObject.CompareTag("Emma"))
         {
-            _anim.SetTrigger("DoorTrigger");
+            emmaOnPlate = true;
+            lightsOn = true;
+            doorLight.DOIntensity(1, 0.2f);
+            plateLight.DOIntensity(1, 0.2f);
+            Debug.Log("Emma has stepped on the plate");
+
+            if (madisonOnPlate == false && crateOnPlate == false)
+            {
+                _anim.Play("DoorSlideOpen");
+            }
         }
-        else if (other.gameObject.CompareTag("Player"))
+
+        if (other.gameObject.CompareTag("Madison"))
         {
-            _anim.SetTrigger("DoorTrigger");
+            madisonOnPlate = true;
+            lightsOn = true;
+            Debug.Log("Madison has stepped on the plate");
+                
+            if (emmaOnPlate == false && crateOnPlate == false)
+            {
+                 _anim.Play("DoorSlideOpen");
+            }
         }
+
+        if (other.gameObject.CompareTag("MovableCrate"))
+        {
+            crateOnPlate = true;
+            lightsOn = true;
+            Debug.Log("Crate is on the plate");
+
+            if (madisonOnPlate == false && emmaOnPlate == false)
+            {
+                _anim.Play("DoorSlideOpen");
+            }
+        }
+           
+            /*if (other.gameObject.CompareTag("Madison") || other.gameObject.CompareTag("Emma")
+                || other.gameObject.CompareTag("MovableCrate"))
+            {
+                //_anim.SetTrigger("DoorTrigger");
+                //crateOnPlate = true;
+
+                //_anim.SetBool("DoorSlideOpen", true);
+                //_anim.SetBool("DoorSlideClose", false);
+                _anim.Play("DoorSlideOpen");
+                plateIsPressured = true;
+                //madisonOnPlate = true;
+                Debug.Log("Something on the plate");
+            }
+            */
+        //}
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.CompareTag("Madison"))
+        {
+            madisonOnPlate = false;
+            Debug.Log("Madison has stepped off the plate");
+        }
+
+        if (other.gameObject.CompareTag("Emma"))
+        {
+            emmaOnPlate = false;
+            Debug.Log("Emma has stepped off the plate");
+        }
+
         if (other.gameObject.CompareTag("MovableCrate"))
         {
-            _anim.SetTrigger("DoorTrigger");
+            crateOnPlate = false;
+            Debug.Log("Crate is off the plate");
         }
-        else if (other.gameObject.CompareTag("Player"))
+
+        if (emmaOnPlate == false && madisonOnPlate == false && crateOnPlate == false)
         {
-            _anim.SetTrigger("DoorTrigger");
+            Debug.Log("Door should close");
+            lightsOn = false;
+            doorLight.DOIntensity(0, 0.2f);
+            plateLight.DOIntensity(0, 0.2f);
+            _anim.Play("DoorSlideClose");
         }
     }
 
