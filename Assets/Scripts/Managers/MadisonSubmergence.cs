@@ -77,7 +77,7 @@ public class MadisonSubmergence : MonoBehaviour
         {
             submergence = 1f - hit.distance / submergenceRange;
 
-            if (submergence > 0.66f)
+            if (submergence > 0.88f)
                 //aiemmin 0.66f
             {
                 Debug.Log("Madison death sequence has started");

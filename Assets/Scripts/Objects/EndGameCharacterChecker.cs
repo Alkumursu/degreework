@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,15 @@ public class EndGameCharacterChecker : MonoBehaviour
     bool emmaReachedEnd = false;
     bool madisonReachedEnd = false;
 
+    [SerializeField] GameObject dialogueBackground;
+    [SerializeField] GameObject unknownSpeaks;
+    private bool unknownHasSpoken = false;
+
 
     void Start()
     {
-
+        dialogueBackground.SetActive(false);
+        unknownSpeaks.SetActive(false);
     }
 
     void Update()
@@ -36,31 +42,32 @@ public class EndGameCharacterChecker : MonoBehaviour
             Debug.Log("Emma reached end");
         }
     }
-    private void OnTriggerStay(Collider other)
+    /*private void OnTriggerStay(Collider collision)
     {
-        if (other.gameObject.CompareTag("Madison") && GameManager.Instance.State == GameState.MadisonActive)
+        if (collision.gameObject.CompareTag("Madison") && GameManager.Instance.State == GameState.MadisonActive)
         {
             madisonReachedEnd = true;
             GameEnding();
         }
 
-        if (other.gameObject.CompareTag("Emma") && GameManager.Instance.State == GameState.EmmaActive)
+        if (collision.gameObject.CompareTag("Emma") && GameManager.Instance.State == GameState.EmmaActive)
         {
             emmaReachedEnd = true;
             GameEnding();
         }
     }
+    */
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.MadisonActive)
+        if (other.gameObject.CompareTag("Madison") && GameManager.Instance.State == GameState.MadisonActive)
         {
             madisonReachedEnd = false;
             GameEnding();
             Debug.Log("Madison missed the end");
         }
 
-        if (other.gameObject.CompareTag("EndingTrigger") && GameManager.Instance.State == GameState.EmmaActive)
+        if (other.gameObject.CompareTag("Emma") && GameManager.Instance.State == GameState.EmmaActive)
         {
             emmaReachedEnd = false;
             GameEnding();
@@ -77,10 +84,22 @@ public class EndGameCharacterChecker : MonoBehaviour
         }
         else
         {
-            Debug.Log("Both girls are needed");
-            //Inform player they need both girls present
+            if (unknownHasSpoken == false)
+            {
+                //Debug.Log("Both girls are needed");
+                StartCoroutine(BothGirlsAreNeeded());
+                //Inform player they need both girls present
+            }
         }
-
+    }
+    IEnumerator BothGirlsAreNeeded()
+    {
+        dialogueBackground.SetActive(true);
+        unknownSpeaks.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        dialogueBackground.SetActive(false);
+        unknownSpeaks.SetActive(false);
+        unknownHasSpoken = true;
     }
 }
     /*private void OnTriggerExit(Collider other)

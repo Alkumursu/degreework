@@ -28,9 +28,9 @@ public class ButtonDoorFunctioning_ExceptionDoor : MonoBehaviour
 
     void Update()
     {
-        if (isHighlighted && canOpenDoor == true)
+        if (isHighlighted && canOpenDoor == true && this != null)
         {
-            Debug.Log("Door opened");
+            //Debug.Log("Door opened");
             _playerActions.Player_Map.Interact.performed += _ => ActivateButton();
         }
     }

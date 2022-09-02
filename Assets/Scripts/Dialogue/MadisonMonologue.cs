@@ -7,14 +7,14 @@ public class MadisonMonologue : MonoBehaviour
     [SerializeField] GameObject dialogueBackground;
     [SerializeField] GameObject madisonSpeaks1, madisonSpeaks2;
 
-    private bool madisonHasSpokenOnce;
+    //private bool madisonHasSpokenOnce;
     public bool madisonHasSpokenTwice;
 
 
     void Start()
     {
         dialogueBackground.SetActive(false);
-        madisonHasSpokenOnce = false;
+        //madisonHasSpokenOnce = false;
         madisonHasSpokenTwice = false;
         madisonSpeaks1.SetActive(false);
         madisonSpeaks2.SetActive(false);
@@ -54,16 +54,17 @@ public class MadisonMonologue : MonoBehaviour
 
     IEnumerator MadisonMonologueCountdown1()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         //dialogueBackground.SetActive(false);
         madisonSpeaks1.SetActive(false);
-        madisonHasSpokenOnce = true;
+        //madisonHasSpokenOnce = true;
         Destroy(madisonSpeaks1);
+        yield return new WaitForSeconds(0.5f);
         MadisonHasSpokenOnce();
     }
     IEnumerator MadisonMonologueCountdown2()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         dialogueBackground.SetActive(false);
         madisonSpeaks2.SetActive(false);
         madisonHasSpokenTwice = true;

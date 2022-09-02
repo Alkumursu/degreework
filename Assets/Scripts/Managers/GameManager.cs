@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     public static bool gameIsWon;
     public GameObject gameWonScreen;
 
+    //Pause Menu
+    public bool allowPauseMenu = true;
+
     private void Awake()
     {
         Instance = this;
@@ -122,6 +125,7 @@ public class GameManager : MonoBehaviour
     public void HandleGameWon()
     {
         gameIsWon = !gameIsWon;
+        allowPauseMenu = false;
 
         if (gameIsWon)
         {
@@ -140,7 +144,7 @@ public class GameManager : MonoBehaviour
     {
         if (characterHasDied == false)
         {
-            FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+            FindObjectOfType<ControllableCharacter>().CanClosePause();
         }
     }
 
@@ -156,7 +160,7 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        if (characterHasDied == false)
+        if (characterHasDied == false && gameIsWon == false)
         {
             FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
         }
@@ -174,7 +178,7 @@ public class GameManager : MonoBehaviour
 
     public void ReturnMainMenu()
     {
-        if (characterHasDied == false)
+        if (characterHasDied == false && gameIsWon == false)
         {
             FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
         }

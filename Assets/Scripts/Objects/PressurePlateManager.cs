@@ -14,6 +14,7 @@ public class PressurePlateManager : MonoBehaviour
     void Start()
     {
         _anim = this.GetComponent<Animator>();
+        doorIsOpen = false;
     }
 
     void Update()
@@ -29,19 +30,16 @@ public class PressurePlateManager : MonoBehaviour
         {
             if (pressurePlates[i].IsActivated())
             {
-                //t‰h‰n valot tms.
-                //k‰ytet‰‰n dotweeni‰ valon intensity sis‰‰n ja pois
-                lights[i].DOIntensity(1, 0.2f);
-                doorLights[i].DOIntensity(1, 0.2f);
+                //With dotween we manage the intensity of lights
+                lights[i].DOIntensity(2, 0.2f);
+                doorLights[i].DOIntensity(2, 0.2f);
                 //voit lis‰t‰ v‰ri‰
-                doorIsOpen = false;
             }
             else
             {
                 failure = true;
                 lights[i].DOIntensity(0, 0.2f);
                 doorLights[i].DOIntensity(0, 0.2f);
-                doorIsOpen = false;
             }
         } 
 
@@ -52,15 +50,11 @@ public class PressurePlateManager : MonoBehaviour
             _anim.Play("DoorSlideOpen");
             Debug.Log("DoorOpen");
         }
-        else
+        else if (doorIsOpen == true)
         {
-            if (doorIsOpen == true)
-            {
-                //sulje ovet
-                _anim.Play("DoorSlideClose");
-                Debug.Log("DoorClose");
-            }
-
+            _anim.Play("DoorSlideClose");
+            Debug.Log("DoorClose");
+            doorIsOpen = false;
         }
     }
 }

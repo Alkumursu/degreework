@@ -44,7 +44,7 @@ public class ControllableCharacter : MonoBehaviour
     {
         Default,
         Swimming,
-        Dying
+        //Dying
     }
     PlayerState currentPlayerState;
 
@@ -82,6 +82,10 @@ public class ControllableCharacter : MonoBehaviour
     bool paused = false;
     public GameObject pauseScreen;
     //bool characterChangeAllowed = false;
+    //public bool orderToReturnToGame = false;
+    //public GameManager gameManager;
+    public bool pauseAllowed = false;
+
 
     //Slope booster
     bool boostingLeft = false;
@@ -105,6 +109,29 @@ public class ControllableCharacter : MonoBehaviour
 
         playerStateText.text = "Player state: " + currentPlayerState;
     }
+
+    void Update()
+    {
+        if(GameManager.Instance.allowPauseMenu == true)
+        {
+            pauseAllowed = true;
+        }
+        else
+        {
+            pauseAllowed = false;
+        }
+    }
+        /*
+        if (gameManager.allowPauseMenu == true)
+        {
+            pauseAllowed = true;
+        }
+        else
+        {
+            pauseAllowed = false;
+        }
+        */
+    
 
     void ClearState()
     {
@@ -158,27 +185,27 @@ public class ControllableCharacter : MonoBehaviour
         if (exitingWaterLeft)
         {
             Vector3 pushForce = new Vector3(-1, 1, 0);
-            _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
+            _rb.AddForce(pushForce * 1.1f, ForceMode.Acceleration); //ennen 2
             //Debug.Log("Pushed Left");
         }
 
         if (exitingWaterRight)
         {
             Vector3 pushForce = new Vector3(1, 1, 0);
-            _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
+            _rb.AddForce(pushForce * 1.1f, ForceMode.Acceleration); //ennen 2
             //Debug.Log("Pushed Right");
         }
 
         if (boostingLeft)
         {
             Vector3 pushForce = new Vector3(-1, 1, 0);
-            _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
+            _rb.AddForce(pushForce * 1.1f, ForceMode.Acceleration); //ennen 2
         }
 
         if (boostingRight)
         {
             Vector3 pushForce = new Vector3(1, 1, 0);
-            _rb.AddForce(pushForce * 2, ForceMode.Acceleration);
+            _rb.AddForce(pushForce * 1.1f, ForceMode.Acceleration); //ennen 2
         }
     }
 
@@ -211,7 +238,7 @@ public class ControllableCharacter : MonoBehaviour
             -upAxis, out RaycastHit hit, submergenceRange + 1f, waterMask, QueryTriggerInteraction.Collide))
         {
             submergence = 1f - hit.distance / submergenceRange;
-            if(submergence < 0.66f)
+            if(submergence < 0.66f) //ennen 0.66
             {
                 col.direction = 1;
                 currentPlayerState = PlayerState.Default;
@@ -240,7 +267,7 @@ public class ControllableCharacter : MonoBehaviour
 
     public void MadisonDeath()
     {
-            currentPlayerState = PlayerState.Dying;
+            //currentPlayerState = PlayerState.Dying;
             _playerAnim.Play("Death");
             _playerAnim.SetBool("Running", false);
             _playerAnim.SetBool("Jumping", false);
@@ -352,11 +379,12 @@ public class ControllableCharacter : MonoBehaviour
                     SwimmingMovement();
                     break;
                 }
-            case PlayerState.Dying:
+            /*case PlayerState.Dying:
                 {
                     DyingAction();
                     break;
                 }
+            */
         }
     }
 
@@ -373,10 +401,11 @@ public class ControllableCharacter : MonoBehaviour
         HandleCrateMoving();
     }
 
-    void DyingAction()
+    /*void DyingAction()
     {
         HandleDying();
     }
+    */
 
     private void HandleMovement()
     {
@@ -471,7 +500,7 @@ public class ControllableCharacter : MonoBehaviour
     {
         _rb.drag = waterDrag;
         _moveInput = _playerActions.Player_Map.Movement.ReadValue<Vector2>();
-        Vector3 movementVelocity = new Vector3(_moveInput.x * _speed, (_moveInput.y * _speed) * 0.33f, 0);
+        Vector3 movementVelocity = new Vector3(_moveInput.x * _speed, (_moveInput.y * 2 *_speed) * 0.33f, 0); //added *2 later on
         _rb.velocity = Vector3.Lerp(_rb.velocity, movementVelocity, Time.fixedDeltaTime);
         _playerAnim.SetBool("SwimmingIdle", true);
         _playerAnim.SetBool("Swimming", false);
@@ -627,7 +656,7 @@ public class ControllableCharacter : MonoBehaviour
     {
         paused = !paused;
 
-        if (paused)
+        if (paused && pauseAllowed)
         {
             Debug.Log("Pause menu activated");
             pauseScreen.gameObject.SetActive(true);
@@ -635,14 +664,20 @@ public class ControllableCharacter : MonoBehaviour
         }
         else
         {
-            pauseScreen.gameObject.SetActive(false);
-            Time.timeScale = 1f;
+            CanClosePause();
         }
     }
 
-    public void HandleDying()
+    public void CanClosePause()
+    {
+        pauseScreen.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    /*public void HandleDying()
     {
 
     }
+    */
 
 }

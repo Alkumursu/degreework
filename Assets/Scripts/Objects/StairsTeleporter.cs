@@ -39,14 +39,14 @@ public class StairsTeleporter : MonoBehaviour
         */
         if (isHighlighted)
         {
-            Debug.Log("Stairs ready");
+            //Debug.Log("Stairs ready");
             _playerActions.Player_Map.StairsTeleportation.performed += _ => GoToEnd();
         }
     }
 
     void GoToEnd()
     {
-        Debug.Log("Success");
+        //Debug.Log("Success");
         StartCoroutine(TeleportSequence());
     }
 

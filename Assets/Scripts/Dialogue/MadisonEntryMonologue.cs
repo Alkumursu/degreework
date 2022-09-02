@@ -19,10 +19,10 @@ public class MadisonEntryMonologue : MonoBehaviour
 
     IEnumerator FirstMonologue()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         dialogueBackground.SetActive(true);
         madisonSpeaks.SetActive(true);
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(4.5f);
         dialogueBackground.SetActive(false);
         madisonSpeaks.SetActive(false);
         Destroy(dialogueBackground);
