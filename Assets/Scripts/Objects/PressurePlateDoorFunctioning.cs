@@ -63,6 +63,7 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
             if (madisonOnPlate == false && crateOnPlate == false)
             {
                 _anim.Play("DoorSlideOpen");
+                FindObjectOfType<AudioManager>().Play("DoorSound");
             }
         }
 
@@ -75,6 +76,7 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
             if (emmaOnPlate == false && crateOnPlate == false)
             {
                  _anim.Play("DoorSlideOpen");
+                FindObjectOfType<AudioManager>().Play("DoorSound");
             }
         }
 
@@ -87,6 +89,7 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
             if (madisonOnPlate == false && emmaOnPlate == false)
             {
                 _anim.Play("DoorSlideOpen");
+                FindObjectOfType<AudioManager>().Play("DoorSound");
             }
         }
            

@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameWonScreen;
 
     //Pause Menu
-    public bool allowPauseMenu = true;
+    //public bool allowPauseMenu = true;
 
     private void Awake()
     {
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
     public void HandleGameWon()
     {
         gameIsWon = !gameIsWon;
-        allowPauseMenu = false;
+        //allowPauseMenu = false;
 
         if (gameIsWon)
         {
@@ -133,11 +133,12 @@ public class GameManager : MonoBehaviour
             gameWonScreen.SetActive(true);
             Time.timeScale = 0f;
         }
-        else
+        /*else
         {
             gameWonScreen.SetActive(false);
             Time.timeScale = 1f;
         }
+        */
     }
 
     public void HandleContinue()

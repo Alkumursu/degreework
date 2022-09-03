@@ -84,7 +84,7 @@ public class ControllableCharacter : MonoBehaviour
     //bool characterChangeAllowed = false;
     //public bool orderToReturnToGame = false;
     //public GameManager gameManager;
-    public bool pauseAllowed = false;
+    //public bool pauseAllowed = true;
 
 
     //Slope booster
@@ -112,26 +112,17 @@ public class ControllableCharacter : MonoBehaviour
 
     void Update()
     {
-        if(GameManager.Instance.allowPauseMenu == true)
-        {
-            pauseAllowed = true;
-        }
-        else
+        // At some point pause menu popped up uncontrollably, but now this seems to have no use
+        /*if(GameManager.Instance.allowPauseMenu == false)
         {
             pauseAllowed = false;
         }
-    }
-        /*
-        if (gameManager.allowPauseMenu == true)
+        else if (GameManager.Instance.allowPauseMenu == true)
         {
             pauseAllowed = true;
-        }
-        else
-        {
-            pauseAllowed = false;
         }
         */
-    
+    }
 
     void ClearState()
     {
@@ -656,7 +647,7 @@ public class ControllableCharacter : MonoBehaviour
     {
         paused = !paused;
 
-        if (paused && pauseAllowed)
+        if (paused)//&&pauseAllowed
         {
             Debug.Log("Pause menu activated");
             pauseScreen.gameObject.SetActive(true);
