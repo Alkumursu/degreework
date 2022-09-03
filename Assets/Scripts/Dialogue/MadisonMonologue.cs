@@ -59,7 +59,7 @@ public class MadisonMonologue : MonoBehaviour
         madisonSpeaks1.SetActive(false);
         //madisonHasSpokenOnce = true;
         Destroy(madisonSpeaks1);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         MadisonHasSpokenOnce();
     }
     IEnumerator MadisonMonologueCountdown2()

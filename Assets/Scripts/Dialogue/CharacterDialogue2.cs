@@ -38,11 +38,11 @@ public class CharacterDialogue2 : MonoBehaviour
         madisonSpeaks1.SetActive(true);
         yield return new WaitForSeconds(6f);
         madisonSpeaks1.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         emmaSpeaks.SetActive(true);
         yield return new WaitForSeconds(6f);
         emmaSpeaks.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         madisonSpeaks2.SetActive(true);
         yield return new WaitForSeconds(4f);
         madisonSpeaks2.SetActive(false);

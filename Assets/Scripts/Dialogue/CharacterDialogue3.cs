@@ -37,7 +37,7 @@ public class CharacterDialogue3 : MonoBehaviour
         madisonSpeaks.SetActive(true);
         yield return new WaitForSeconds(6f);
         madisonSpeaks.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         emmaSpeaks.SetActive(true);
         yield return new WaitForSeconds(6f);
         dialogueBackground.SetActive(false);
