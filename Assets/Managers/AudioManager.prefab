@@ -60,13 +60,6 @@ MonoBehaviour:
     spatialBlend: 1
     loop: 0
     source: {fileID: 0}
-  - name: Steps
-    clip: {fileID: 8300000, guid: 40abd25e088cb8e429449da87555268a, type: 3}
-    volume: 0.262
-    pitch: 1.08
-    spatialBlend: 0.46
-    loop: 0
-    source: {fileID: 0}
 --- !u!82 &704032896
 AudioSource:
   m_ObjectHideFlags: 0

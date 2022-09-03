@@ -40,6 +40,7 @@ public class ButtonDoorFunctioning_ExceptionDoor : MonoBehaviour
         if (doorIsOpen == false)
         {
             _anim.Play("DoorSlideOpen");
+            FindObjectOfType<AudioManager>().Play("ButtonSound");
             FindObjectOfType<AudioManager>().Play("DoorSound");
 
             pointLight.DOIntensity(0, 0.2f);

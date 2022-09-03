@@ -53,12 +53,14 @@ public class StairsTeleporter_Exception : MonoBehaviour
     {
         if (canTeleport == true)
         {
+            FindObjectOfType<AudioManager>().Play("StairsSound");
             GameManager.Instance.FadeIn(fadeTime);
-            yield return new WaitForSeconds(fadeTime);
+            //FindObjectOfType<AudioManager>().Play("StairsSound");
+            yield return new WaitForSeconds(fadeTime * 2f);
             // Teleportation position
             cc.TeleportPosition(endPosition);
             yield return new WaitForSeconds(0.3f);
-            GameManager.Instance.FadeOut(fadeTime);
+            GameManager.Instance.FadeOut(fadeTime * 2f);
         }
     }
 

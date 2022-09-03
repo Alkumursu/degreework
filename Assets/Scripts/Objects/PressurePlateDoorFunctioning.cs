@@ -64,6 +64,7 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
             {
                 _anim.Play("DoorSlideOpen");
                 FindObjectOfType<AudioManager>().Play("DoorSound");
+                FindObjectOfType<AudioManager>().Play("PressurePlateSound");
             }
         }
 
@@ -77,6 +78,7 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
             {
                  _anim.Play("DoorSlideOpen");
                 FindObjectOfType<AudioManager>().Play("DoorSound");
+                FindObjectOfType<AudioManager>().Play("PressurePlateSound");
             }
         }
 
@@ -90,6 +92,7 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
             {
                 _anim.Play("DoorSlideOpen");
                 FindObjectOfType<AudioManager>().Play("DoorSound");
+                FindObjectOfType<AudioManager>().Play("PressurePlateSound");
             }
         }
            
@@ -137,6 +140,8 @@ public class PressurePlateDoorFunctioning : MonoBehaviour
             doorLight.DOIntensity(0, 0.2f);
             plateLight.DOIntensity(0, 0.2f);
             _anim.Play("DoorSlideClose");
+            FindObjectOfType<AudioManager>().Play("DoorSound");
+            FindObjectOfType<AudioManager>().Play("PressurePlateSound");
         }
     }
 

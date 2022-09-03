@@ -56,6 +56,7 @@ public class PressurePlate : MonoBehaviour
             if (madisonOnPlate == false && crateOnPlate == false)
             {
                 isActivated = true;
+                FindObjectOfType<AudioManager>().Play("PressurePlateSound");
                 manager.CheckAllPlates();
             }
         }
@@ -68,6 +69,7 @@ public class PressurePlate : MonoBehaviour
             if (emmaOnPlate == false && crateOnPlate == false)
             {
                 isActivated = true;
+                FindObjectOfType<AudioManager>().Play("PressurePlateSound");
                 manager.CheckAllPlates();
             }
         }
@@ -80,6 +82,7 @@ public class PressurePlate : MonoBehaviour
             if (madisonOnPlate == false && emmaOnPlate == false)
             {
                 isActivated = true;
+                FindObjectOfType<AudioManager>().Play("PressurePlateSound");
                 manager.CheckAllPlates();
             }
         }
@@ -109,6 +112,7 @@ public class PressurePlate : MonoBehaviour
         {
             Debug.Log("Door should close");
             isActivated = false;
+            FindObjectOfType<AudioManager>().Play("PressurePlateSound");
             manager.CheckAllPlates();
         }
     }

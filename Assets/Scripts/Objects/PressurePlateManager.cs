@@ -48,11 +48,13 @@ public class PressurePlateManager : MonoBehaviour
             //avaa ovet
             doorIsOpen = true;
             _anim.Play("DoorSlideOpen");
+            FindObjectOfType<AudioManager>().Play("DoorSound");
             Debug.Log("DoorOpen");
         }
         else if (doorIsOpen == true)
         {
             _anim.Play("DoorSlideClose");
+            FindObjectOfType<AudioManager>().Play("DoorSound");
             Debug.Log("DoorClose");
             doorIsOpen = false;
         }

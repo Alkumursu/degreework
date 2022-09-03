@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
         s.source.Play();
     }
 
-    /*public void PlayOneShot(string name)
+    public void PlayOneShot(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
@@ -59,8 +59,6 @@ public class AudioManager : MonoBehaviour
         }
         s.source.PlayOneShot(s.clip, s.volume);
     }
-
-    */
 
     public void StopPlaying(String sound)
     {
