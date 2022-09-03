@@ -149,12 +149,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CharacterIsDead()
+    {
+        FindObjectOfType<AudioManager>().Play("MadisonDeathSound");
+    }
+
     public void HandleLoadCheckpoint()
     {
         if (characterHasDied == false)
         {
             characterHasDied = true;
-            Debug.Log("Reload scene");
+            CharacterIsDead();
+            //Debug.Log("Reload scene");
             Invoke("Restart", restartDelay);
         }
     }
@@ -212,11 +218,22 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RestartSequence()
     {
-        Time.timeScale = 1f;
-        FadeIn(fadeTime);
-        yield return new WaitForSeconds(0.3f);
-        DOTween.KillAll();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (characterHasDied == false)
+        {
+            Time.timeScale = 1f;
+            FadeIn(fadeTime);
+            yield return new WaitForSeconds(1); //ennen 0.3f
+            DOTween.KillAll();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            FadeIn(fadeTime);
+            yield return new WaitForSeconds(3); //ennen 0.3f
+            DOTween.KillAll();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
 
         /*yield return new WaitForSeconds(0.3f);
         fadeToBlack.DOFade(1f, sceneLoadDelay);
