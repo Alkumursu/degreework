@@ -39,6 +39,9 @@ public class ControllableCharacter : MonoBehaviour
     //Animations
     private Animator _playerAnim;
 
+    //SFT
+    private bool madisonIsDead;
+
     //Player states
     public enum PlayerState
     {
@@ -84,7 +87,7 @@ public class ControllableCharacter : MonoBehaviour
     //bool characterChangeAllowed = false;
     //public bool orderToReturnToGame = false;
     //public GameManager gameManager;
-    //public bool pauseAllowed = true;
+    public bool pauseAllowed;
 
 
     //Slope booster
@@ -108,12 +111,14 @@ public class ControllableCharacter : MonoBehaviour
         currentPlayerState = PlayerState.Default;
 
         playerStateText.text = "Player state: " + currentPlayerState;
+        pauseAllowed = true;
+        madisonIsDead = false;
     }
 
     void Update()
     {
-        // At some point pause menu popped up uncontrollably, but now this seems to have no use
-        /*if(GameManager.Instance.allowPauseMenu == false)
+        //To control unnecessary pause pops during end game
+        if(GameManager.Instance.allowPauseMenu == false)
         {
             pauseAllowed = false;
         }
@@ -121,7 +126,6 @@ public class ControllableCharacter : MonoBehaviour
         {
             pauseAllowed = true;
         }
-        */
     }
 
     void ClearState()
@@ -140,6 +144,11 @@ public class ControllableCharacter : MonoBehaviour
         if ((waterMask & (1 << other.gameObject.layer)) != 0)
         {
             EvaluateSubmergence();
+
+            if(madisonIsDead == false)
+            {
+                FindObjectOfType<AudioManager>().Play("WaterSplash");
+            }
             //Debug.Log("Water");
         }
 
@@ -258,12 +267,13 @@ public class ControllableCharacter : MonoBehaviour
 
     public void MadisonDeath()
     {
-            //currentPlayerState = PlayerState.Dying;
-            _playerAnim.Play("Death");
-            _playerAnim.SetBool("Running", false);
-            _playerAnim.SetBool("Jumping", false);
-            playerStateText.text = "Player state: " + currentPlayerState;
-            FindObjectOfType<GameManager>().HandleLoadCheckpoint();
+        //currentPlayerState = PlayerState.Dying;
+        madisonIsDead = true;
+        _playerAnim.Play("Death");
+        _playerAnim.SetBool("Running", false);
+        _playerAnim.SetBool("Jumping", false);
+        playerStateText.text = "Player state: " + currentPlayerState;
+        FindObjectOfType<GameManager>().HandleLoadCheckpoint();
     }
 
     private void GameManagerOnOnGameStateChanged(GameState newState)
@@ -647,13 +657,13 @@ public class ControllableCharacter : MonoBehaviour
     {
         paused = !paused;
 
-        if (paused)//&&pauseAllowed
+        if (paused && pauseAllowed)
         {
             Debug.Log("Pause menu activated");
             pauseScreen.gameObject.SetActive(true);
             Time.timeScale = 0f;
         }
-        else
+        else if (pauseAllowed == true)
         {
             CanClosePause();
         }

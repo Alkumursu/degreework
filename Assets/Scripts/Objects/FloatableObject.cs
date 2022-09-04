@@ -20,14 +20,17 @@ public class FloatableObject : MonoBehaviour
 
     [SerializeField, Range(0f, 10f)] float waterDrag = 1f;
 
+    public bool readyToPlaySound;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        readyToPlaySound = false;
     }
 
     void Update()
     {
-        
+        readyToPlaySound = true;
     }
 
     private void FixedUpdate()
@@ -61,6 +64,13 @@ public class FloatableObject : MonoBehaviour
         if ((waterMask & (1 << other.gameObject.layer)) != 0)
         {
             EvaluateSubmergence();
+
+            //Audio test, works so far
+            if (readyToPlaySound)
+            {
+                FindObjectOfType<AudioManager>().PlayOneShot("WaterSplash");
+            }
+            //FindObjectOfType<AudioManager>().PlayOneShot("WaterSplash");
         }
     }
 

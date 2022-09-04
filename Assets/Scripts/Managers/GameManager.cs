@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameWonScreen;
 
     //Pause Menu
-    //public bool allowPauseMenu = true;
+    public bool allowPauseMenu;
 
     private void Awake()
     {
@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateGameState(GameState.MadisonActive);
         gameIsWon = false;
+        allowPauseMenu = true;
     }
 
     public void FadeIn(float fadeTime)
@@ -125,7 +126,7 @@ public class GameManager : MonoBehaviour
     public void HandleGameWon()
     {
         gameIsWon = !gameIsWon;
-        //allowPauseMenu = false;
+        allowPauseMenu = false;
 
         if (gameIsWon)
         {
