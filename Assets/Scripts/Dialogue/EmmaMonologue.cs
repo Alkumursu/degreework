@@ -31,7 +31,7 @@ public class EmmaMonologue : MonoBehaviour
 
     IEnumerator EmmaMonologueCountdown()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         dialogueBackground.SetActive(false);
         emmaSpeaks.SetActive(false);
         Destroy(dialogueBackground);

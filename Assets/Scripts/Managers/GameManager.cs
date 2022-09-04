@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     public static bool gameIsWon;
     public GameObject gameWonScreen;
 
+    //Pause Menu
+    public bool allowPauseMenu;
+
     private void Awake()
     {
         Instance = this;
@@ -40,6 +43,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateGameState(GameState.MadisonActive);
         gameIsWon = false;
+        allowPauseMenu = true;
     }
 
     public void FadeIn(float fadeTime)
@@ -122,6 +126,7 @@ public class GameManager : MonoBehaviour
     public void HandleGameWon()
     {
         gameIsWon = !gameIsWon;
+        allowPauseMenu = false;
 
         if (gameIsWon)
         {
@@ -129,19 +134,25 @@ public class GameManager : MonoBehaviour
             gameWonScreen.SetActive(true);
             Time.timeScale = 0f;
         }
-        else
+        /*else
         {
             gameWonScreen.SetActive(false);
             Time.timeScale = 1f;
         }
+        */
     }
 
     public void HandleContinue()
     {
         if (characterHasDied == false)
         {
-            FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
+            FindObjectOfType<ControllableCharacter>().CanClosePause();
         }
+    }
+
+    public void CharacterIsDead()
+    {
+        FindObjectOfType<AudioManager>().Play("MadisonDeathSound");
     }
 
     public void HandleLoadCheckpoint()
@@ -149,14 +160,15 @@ public class GameManager : MonoBehaviour
         if (characterHasDied == false)
         {
             characterHasDied = true;
-            Debug.Log("Reload scene");
+            CharacterIsDead();
+            //Debug.Log("Reload scene");
             Invoke("Restart", restartDelay);
         }
     }
 
     public void Restart()
     {
-        if (characterHasDied == false)
+        if (characterHasDied == false && gameIsWon == false)
         {
             FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
         }
@@ -174,7 +186,7 @@ public class GameManager : MonoBehaviour
 
     public void ReturnMainMenu()
     {
-        if (characterHasDied == false)
+        if (characterHasDied == false && gameIsWon == false)
         {
             FindObjectOfType<ControllableCharacter>().TriggerPauseMenu();
         }
@@ -207,11 +219,22 @@ public class GameManager : MonoBehaviour
 
     IEnumerator RestartSequence()
     {
-        Time.timeScale = 1f;
-        FadeIn(fadeTime);
-        yield return new WaitForSeconds(0.3f);
-        DOTween.KillAll();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (characterHasDied == false)
+        {
+            Time.timeScale = 1f;
+            FadeIn(fadeTime);
+            yield return new WaitForSeconds(1); //ennen 0.3f
+            DOTween.KillAll();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            FadeIn(fadeTime);
+            yield return new WaitForSeconds(3); //ennen 0.3f
+            DOTween.KillAll();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
 
         /*yield return new WaitForSeconds(0.3f);
         fadeToBlack.DOFade(1f, sceneLoadDelay);

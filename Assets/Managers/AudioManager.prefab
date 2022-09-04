@@ -47,24 +47,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: BGM
-    clip: {fileID: 8300000, guid: b1db24cfd688f29459e24b0999cb4ff7, type: 3}
-    volume: 0.663
+    clip: {fileID: 8300000, guid: e93683c9c0a995d48b3f20927db0ac5a, type: 3}
+    volume: 0.495
     pitch: 1
     spatialBlend: 0
     loop: 1
     source: {fileID: 0}
   - name: DoorSound
     clip: {fileID: 8300000, guid: 16aaf4a466fc55f428961dfbe16b368f, type: 3}
-    volume: 0.262
+    volume: 0.16
     pitch: 1.08
     spatialBlend: 1
     loop: 0
     source: {fileID: 0}
-  - name: Steps
-    clip: {fileID: 8300000, guid: 40abd25e088cb8e429449da87555268a, type: 3}
-    volume: 0.262
+  - name: ButtonSound
+    clip: {fileID: 8300000, guid: 8ad5dc36255f3994ca0611662f8f3326, type: 3}
+    volume: 0.475
     pitch: 1.08
-    spatialBlend: 0.46
+    spatialBlend: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PressurePlateSound
+    clip: {fileID: 8300000, guid: 08f0617a1de008940b6f13429b5b9d08, type: 3}
+    volume: 0.505
+    pitch: 1.08
+    spatialBlend: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: StairsSound
+    clip: {fileID: 8300000, guid: e61a9e00ef219b54891caf76fdd4f0f0, type: 3}
+    volume: 0.667
+    pitch: 1.08
+    spatialBlend: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: MadisonDeathSound
+    clip: {fileID: 8300000, guid: 587e6727b10650440bc4f6b82849c5fe, type: 3}
+    volume: 0.857
+    pitch: 1.08
+    spatialBlend: 0.036
     loop: 0
     source: {fileID: 0}
 --- !u!82 &704032896

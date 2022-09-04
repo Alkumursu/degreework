@@ -61,7 +61,7 @@ public class CharacterDialogue : MonoBehaviour
 
     IEnumerator MadisonDialogueCountdown()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         dialogueBackground1.SetActive(false);
         madisonSpeaks.SetActive(false);
         madisonHasSpoken = true;
@@ -69,7 +69,7 @@ public class CharacterDialogue : MonoBehaviour
 
     IEnumerator EmmaDialogueCountdown()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         dialogueBackground2.SetActive(false);
         emmaSpeaks.SetActive(false);
         emmaHasSpoken = true;

@@ -28,9 +28,9 @@ public class ButtonDoorFunctioning_ExceptionDoor : MonoBehaviour
 
     void Update()
     {
-        if (isHighlighted && canOpenDoor == true)
+        if (isHighlighted && canOpenDoor == true && this != null)
         {
-            Debug.Log("Door opened");
+            //Debug.Log("Door opened");
             _playerActions.Player_Map.Interact.performed += _ => ActivateButton();
         }
     }
@@ -40,7 +40,8 @@ public class ButtonDoorFunctioning_ExceptionDoor : MonoBehaviour
         if (doorIsOpen == false)
         {
             _anim.Play("DoorSlideOpen");
-            //FindObjectOfType<AudioManager>().Play("DoorSound");
+            FindObjectOfType<AudioManager>().Play("ButtonSound");
+            FindObjectOfType<AudioManager>().Play("DoorSound");
 
             pointLight.DOIntensity(0, 0.2f);
             doorIsOpen = true;
