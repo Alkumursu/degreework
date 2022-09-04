@@ -575,7 +575,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 449, y: -18}
-  m_SizeDelta: {x: 448.9, y: 354.8}
+  m_SizeDelta: {x: 500, y: 354.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &621772381
 MonoBehaviour:
@@ -597,7 +597,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Miia Nyk\xE4nen\n\n3D Art and Animation\nPost-processing\nGame Design"
+  m_text: 'Miia Nykanen
+
+
+    3D Art and Animation
+
+    Game Design
+
+    Project
+    Management'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 06662844ba85f9745ada1feb45a26a07, type: 2}
   m_sharedMaterial: {fileID: -8099928118250098185, guid: 06662844ba85f9745ada1feb45a26a07, type: 2}
@@ -1166,7 +1174,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -434, y: -18}
-  m_SizeDelta: {x: 448.9, y: 354.8}
+  m_SizeDelta: {x: 500, y: 354.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1173776014
 MonoBehaviour:
@@ -1188,7 +1196,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Emmi Rukkila \n\nProgramming\nGame Design\n"
+  m_text: "Emmi Rukkila \n\nProgramming\nGame Design\nProject Management"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 06662844ba85f9745ada1feb45a26a07, type: 2}
   m_sharedMaterial: {fileID: -8099928118250098185, guid: 06662844ba85f9745ada1feb45a26a07, type: 2}
@@ -1416,7 +1424,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 15, y: -372}
-  m_SizeDelta: {x: 448.9, y: 354.8}
+  m_SizeDelta: {x: 500, y: 354.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1626289568
 MonoBehaviour:
@@ -1441,9 +1449,7 @@ MonoBehaviour:
   m_text: 'Special thanks
 
 
-    __________ 3D Assets
-
-    __________ Audio Assets'
+    _____*name here*_____'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 06662844ba85f9745ada1feb45a26a07, type: 2}
   m_sharedMaterial: {fileID: -8099928118250098185, guid: 06662844ba85f9745ada1feb45a26a07, type: 2}
@@ -3254,8 +3260,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 50.2
+  m_fontSizeBase: 50.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3293,7 +3299,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 10.781372, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!224 &1553198209160466078
@@ -3549,7 +3555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1553198209607554458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15995,7 +16001,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3707800933728046890
 MonoBehaviour:
   m_ObjectHideFlags: 0
