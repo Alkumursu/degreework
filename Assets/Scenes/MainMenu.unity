@@ -3461,7 +3461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1553198209607554458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3999,6 +3999,14 @@ PrefabInstance:
     - target: {fileID: 7539466481247002466, guid: b375e4ccf92bedc43854693761bf47b2, type: 3}
       propertyPath: m_Name
       value: Main Camera (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7539466481247002466, guid: b375e4ccf92bedc43854693761bf47b2, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7539466481247002470, guid: b375e4ccf92bedc43854693761bf47b2, type: 3}
+      propertyPath: volumeLayer.m_Bits
+      value: 4224
       objectReference: {fileID: 0}
     - target: {fileID: 7539466481247002471, guid: b375e4ccf92bedc43854693761bf47b2, type: 3}
       propertyPath: m_RootOrder
@@ -15694,7 +15702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &3707800933728046890
 MonoBehaviour:
   m_ObjectHideFlags: 0
