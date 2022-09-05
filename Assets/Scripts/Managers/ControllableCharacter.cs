@@ -658,13 +658,13 @@ public class ControllableCharacter : MonoBehaviour
     {
         paused = !paused;
 
-        if (paused )//&& pauseAllowed
+        if (paused) //&& pauseAllowed)
         {
             Debug.Log("Pause menu activated");
             pauseScreen.gameObject.SetActive(true);
             Time.timeScale = 0f;
         }
-        else //else if (pauseAllowed == true)
+        else //if (pauseAllowed == true)
         {
             CanClosePause();
         }
