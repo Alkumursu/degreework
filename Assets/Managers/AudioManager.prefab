@@ -83,7 +83,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: MadisonDeathSound
     clip: {fileID: 8300000, guid: 587e6727b10650440bc4f6b82849c5fe, type: 3}
-    volume: 0.051
+    volume: 0.148
     pitch: 1.08
     spatialBlend: 0.036
     loop: 0
