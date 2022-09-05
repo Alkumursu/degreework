@@ -12,7 +12,7 @@ public class CharacterManager : MonoBehaviour
     Rigidbody _rb;
 
     //Active character
-    [SerializeField] GameObject emmaCharacter, madisonCharacter;
+    [SerializeField] GameObject madisonCharacter, emmaCharacter;
     private GameObject currentCharacter;
     private ControllableCharacter cc;
     public bool madHasPassedTrigger = false;
@@ -31,16 +31,16 @@ public class CharacterManager : MonoBehaviour
     {
         GameManager.OnGameStateChanged += GameManagerOnOnGameStateChanged;
 
-        emmaCharacter.GetComponent<ControllableCharacter>().enabled = false;
         madisonCharacter.GetComponent<ControllableCharacter>().enabled = false;
+        emmaCharacter.GetComponent<ControllableCharacter>().enabled = false;
 
-        if (GameManager.Instance.State == GameState.EmmaActive)
-        {
-            currentCharacter = emmaCharacter;
-        }
-        else if (GameManager.Instance.State == GameState.MadisonActive)
+        if (GameManager.Instance.State == GameState.MadisonActive)
         {
             currentCharacter = madisonCharacter;
+        }
+        else if (GameManager.Instance.State == GameState.EmmaActive)
+        {
+            currentCharacter = emmaCharacter;
         }
 
         cc = currentCharacter.GetComponent<ControllableCharacter>();
@@ -112,13 +112,13 @@ public class CharacterManager : MonoBehaviour
 
     private void GameManagerOnOnGameStateChanged(GameState state)
     {
-        if(state == GameState.EmmaActive && madHasPassedTrigger == true)
-        {
-            SwitchTo(emmaCharacter);
-        }
-        else if(state == GameState.MadisonActive)
+        if(state == GameState.MadisonActive)
         {
             SwitchTo(madisonCharacter);
+        }
+        else if (state == GameState.EmmaActive && madHasPassedTrigger == true)
+        {
+            SwitchTo(emmaCharacter);
         }
     }
 
