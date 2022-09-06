@@ -20,17 +20,16 @@ public class FloatableObject : MonoBehaviour
 
     [SerializeField, Range(0f, 10f)] float waterDrag = 1f;
 
-    public bool readyToPlaySound;
+    public bool readyToPlaySound = false;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        readyToPlaySound = false;
     }
 
     void Update()
     {
-        readyToPlaySound = true;
+
     }
 
     private void FixedUpdate()
@@ -46,6 +45,7 @@ public class FloatableObject : MonoBehaviour
             //_rb.velocity += Physics.gravity * ((1f - buoyancy * submergence) * Time.deltaTime);
             _rb.AddForce(Vector3.up * Mathf.Lerp(0,1700,Time.fixedDeltaTime), ForceMode.Acceleration);
             _rb.mass = 10;
+            readyToPlaySound = true;
         }
         else
         {
