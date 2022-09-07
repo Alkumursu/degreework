@@ -54,15 +54,15 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: DoorSound
-    clip: {fileID: 8300000, guid: 16aaf4a466fc55f428961dfbe16b368f, type: 3}
-    volume: 0.16
+    clip: {fileID: 8300000, guid: fb583dea9a25b56418c1fbfa44e8d6e9, type: 3}
+    volume: 0.428
     pitch: 1.08
     spatialBlend: 1
     loop: 0
     source: {fileID: 0}
   - name: ButtonSound
-    clip: {fileID: 8300000, guid: 8ad5dc36255f3994ca0611662f8f3326, type: 3}
-    volume: 0.475
+    clip: {fileID: 8300000, guid: 98d1897b775c092418daee5c4939c684, type: 3}
+    volume: 0.361
     pitch: 1.08
     spatialBlend: 1
     loop: 0
@@ -83,9 +83,16 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: MadisonDeathSound
     clip: {fileID: 8300000, guid: 587e6727b10650440bc4f6b82849c5fe, type: 3}
-    volume: 0.857
+    volume: 0.148
     pitch: 1.08
     spatialBlend: 0.036
+    loop: 0
+    source: {fileID: 0}
+  - name: WaterSplash
+    clip: {fileID: 8300000, guid: 36b90d83ba713bf46b308c50281ff892, type: 3}
+    volume: 0.553
+    pitch: 1.08
+    spatialBlend: 1
     loop: 0
     source: {fileID: 0}
 --- !u!82 &704032896

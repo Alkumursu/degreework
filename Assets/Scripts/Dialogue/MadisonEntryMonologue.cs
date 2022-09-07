@@ -22,7 +22,7 @@ public class MadisonEntryMonologue : MonoBehaviour
         yield return new WaitForSeconds(3f);
         dialogueBackground.SetActive(true);
         madisonSpeaks.SetActive(true);
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(3.0f);
         dialogueBackground.SetActive(false);
         madisonSpeaks.SetActive(false);
         Destroy(dialogueBackground);

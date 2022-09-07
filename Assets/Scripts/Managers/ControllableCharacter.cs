@@ -87,7 +87,7 @@ public class ControllableCharacter : MonoBehaviour
     //bool characterChangeAllowed = false;
     //public bool orderToReturnToGame = false;
     //public GameManager gameManager;
-    public bool pauseAllowed;
+    //public bool pauseAllowed;
 
 
     //Slope booster
@@ -111,14 +111,14 @@ public class ControllableCharacter : MonoBehaviour
         currentPlayerState = PlayerState.Default;
 
         playerStateText.text = "Player state: " + currentPlayerState;
-        pauseAllowed = true;
+        //pauseAllowed = true;
         madisonIsDead = false;
     }
 
     void Update()
     {
         //To control unnecessary pause pops during end game
-        if(GameManager.Instance.allowPauseMenu == false)
+        /*if(GameManager.Instance.allowPauseMenu == false)
         {
             pauseAllowed = false;
         }
@@ -126,6 +126,7 @@ public class ControllableCharacter : MonoBehaviour
         {
             pauseAllowed = true;
         }
+        */
     }
 
     void ClearState()
@@ -657,13 +658,13 @@ public class ControllableCharacter : MonoBehaviour
     {
         paused = !paused;
 
-        if (paused && pauseAllowed)
+        if (paused) //&& pauseAllowed)
         {
             Debug.Log("Pause menu activated");
             pauseScreen.gameObject.SetActive(true);
             Time.timeScale = 0f;
         }
-        else if (pauseAllowed == true)
+        else //if (pauseAllowed == true)
         {
             CanClosePause();
         }
